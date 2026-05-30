@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="km" class="light">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>វិញ្ញាសា និងដំណោះស្រាយគណិតវិទ្យាបាក់ឌុប (២០០២ - ២០២៥)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+            darkMode: 'class'
+        }
+  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Siemreap&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                macros: { R: "{\\mathbb{R}}", N: "{\\mathbb{N}}" }
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            chtml: { scale: 1.05 },
+            startup: { pageReady: () => { return MathJax.startup.defaultPageReady(); } }
+        };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  <style>
+    body {
+      font-family: 'Kantumruy Pro', 'Siemreap', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+
+    .btn-3d {
+      position: relative;
+      transition: all 0.1s ease;
+      border-bottom-width: 6px;
+      border-right-width: 4px;
+    }
+
+
+    .btn-3d:hover {
+      transform: translateY(-2px) translateX(-1px);
+      filter: brightness(1.05);
+    }
+
+
+    .btn-3d:active {
+      transform: translateY(4px) translateX(2px);
+      border-bottom-width: 2px;
+      border-right-width: 1px;
+      margin-top: 4px;
+      margin-bottom: -4px;
+    }
+
+
+    @keyframes rainbow-glow {
+      0% {
+        background-position: 0% 50%;
+      }
+
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+
+    .glowing-light-border {
+      position: relative;
+      background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #32cd32, #1e90ff, #9370db, #ff4500);
+      background-size: 400% 400%;
+      animation: rainbow-glow 3s linear infinite;
+      padding: 2.5px;
+    }
+
+
+    iframe {
+      border-radius: 0.75rem;
+      background: #f1f5f9;
+    }
+
+
+    .dark iframe {
+      background: #1e293b;
+    }
+  </style>
+</head>
+
+
+<body class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+
+
+  <!-- Header -->
+  <header
+    class="sticky top-0 z-50 bg-gradient-to-r from-blue-700/95 via-indigo-600/95 to-cyan-500/95 dark:from-slate-850/95 dark:via-slate-800/95 dark:to-slate-900/95 backdrop-blur-md text-white shadow-lg border-b-4 border-blue-800 dark:border-slate-950">
+    <div class="max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div
+          class="bg-white dark:bg-slate-800 text-indigo-600 dark:text-cyan-400 p-2 md:p-3 rounded-xl md:rounded-2xl shadow-inner border border-indigo-200 dark:border-slate-700">
+          <i class="fa-solid fa-calculator text-xl md:text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-lg md:text-2xl font-bold tracking-wide"><span>គណិតវិទ្យា បាក់ឌុប</span></h1>
+          <p class="text-[10px] md:text-xs opacity-90 hidden sm:block mt-0.5">ប្រភពប្រមូលផ្តុំវិញ្ញាសា
+            និងដំណោះស្រាយថ្នាក់វិទ្យាសាស្ត្រ និងសង្គម</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 md:gap-4">
+        <button onclick="toggleTheme()" class="bg-white/10 dark:bg-slate-800/80 hover:bg-white/20 p-2 md:p-2.5 rounded-xl border border-white/20 dark:border-slate-700">
+                    <i id="themeIcon" class="fa-solid fa-moon text-base md:text-lg text-yellow-300 dark:text-yellow-400"></i>
+                </button>
+        <div class="glowing-light-border rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
+          <a href="https://laychannhan.blogspot.com/" target="_blank"
+            class="bg-slate-900 hover:bg-slate-850 text-white px-3 md:px-5 py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-user text-amber-400"></i>
+            <span>អ្នកបង្កើត</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 md:py-8">
+    <!-- Welcome banner -->
+    <div
+      class="bg-white dark:bg-slate-800 rounded-3xl p-5 md:p-8 shadow-sm mb-6 md:mb-8 border-2 border-indigo-100 dark:border-slate-750 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 max-w-xl text-center md:text-left">
+        <h2 class="text-lg md:text-2xl font-bold text-gray-800 dark:text-slate-100 flex items-center gap-2">
+          <i class="fa-solid fa-search-plus text-indigo-500 dark:text-cyan-400"></i>
+          ស្វែងរកវិញ្ញាសាគណិតវិទ្យា
+        </h2>
+        <p class="text-xs md:text-sm text-gray-500 dark:text-slate-400">សូមជ្រើសរើសឆ្នាំសិក្សាណាមួយ ដើម្បីមើលវិញ្ញាសា
+          និងដំណោះស្រាយគណិតវិទ្យា។</p>
+      </div>
+      <div class="w-full md:w-80 relative">
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </span>
+        <input type="number" id="yearSearchInput" placeholder="ស្វែងរកឆ្នាំ... (ឧ. ២០២៤)"
+                       class="w-full pl-10 pr-4 py-3 rounded-2xl border-2 border-indigo-100 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       min="2002" max="2025" oninput="filterYears()">
+      </div>
+    </div>
+
+
+    <!-- Year Grid Section -->
+    <div id="yearsGridSection" class="space-y-6">
+      <div class="flex items-center justify-between border-b-2 border-gray-200 dark:border-slate-750 pb-4">
+        <h3 class="text-sm md:text-lg font-bold text-gray-700 dark:text-slate-300 flex items-center gap-2">
+          <i class="fa-solid fa-calendar-days text-indigo-500"></i>
+          ជ្រើសរើសឆ្នាំប្រឡង (២០០២ - ២០២៥)
+        </h3>
+        <span class="text-xs md:text-sm font-semibold text-indigo-600 bg-indigo-50 dark:bg-slate-800 px-2.5 py-1 rounded-xl" id="resultsCount"></span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-5 pb-10"
+        id="buttonsContainer"></div>
+    </div>
+
+
+    <!-- Subject Section -->
+    <div id="subjectSection" class="hidden space-y-6">
+      <div
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-gray-200 dark:border-slate-750 pb-4">
+        <button onclick="showYearsGrid()" class="flex items-center gap-2 text-indigo-600 dark:text-cyan-400 hover:text-indigo-800 font-bold">
+                    <i class="fa-solid fa-circle-arrow-left"></i> ត្រឡប់ទៅឆ្នាំទាំងអស់វិញ
+                </button>
+        <span id="selectedYearBadge" class="text-sm md:text-xl font-bold px-4 py-2 rounded-2xl text-white shadow-md btn-3d">ឆ្នាំ ២០២៣</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <!-- Science Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl border-2 shadow-md overflow-hidden">
+          <div
+            class="bg-gradient-to-r from-red-500 to-rose-600 p-4 md:p-5 text-white flex justify-between items-center border-b-4 border-red-700">
+            <span class="font-bold text-base md:text-xl"><i class="fa-solid fa-calculator mr-2"></i>គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)</span>
+            <span class="text-[10px] md:text-xs bg-white/20 px-2.5 py-1 rounded-full">វិទ្យាសាស្ត្រ</span>
+          </div>
+          <div class="p-5 md:p-6 pt-0">
+            <div class="flex flex-col sm:flex-row gap-3 mt-4">
+              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)', 'វិញ្ញាសា')" class="flex-1 py-2.5 px-4 bg-red-50 dark:bg-slate-900 hover:bg-red-100 text-red-700 font-bold rounded-2xl flex items-center justify-center gap-2 border border-red-200">
+                                <i class="fa-regular fa-file-pdf"></i> មើលវិញ្ញាសា
+                            </button>
+              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)', 'ដំណោះស្រាយ')" class="flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 btn-3d border-red-800">
+                                <i class="fa-solid fa-square-root-variable"></i> មើលដំណោះស្រាយ
+                            </button>
+            </div>
+          </div>
+        </div>
+        <!-- Social Card -->
+        <div class="bg-white dark:bg-slate-800 rounded-3xl border-2 shadow-md overflow-hidden">
+          <div
+            class="bg-gradient-to-r from-teal-500 to-emerald-600 p-4 md:p-5 text-white flex justify-between items-center border-b-4 border-teal-700">
+            <span class="font-bold text-base md:text-xl"><i class="fa-solid fa-chart-line mr-2"></i>គណិតវិទ្យា (ថ្នាក់សង្គម)</span>
+            <span class="text-[10px] md:text-xs bg-white/20 px-2.5 py-1 rounded-full">សង្គម</span>
+          </div>
+          <div class="p-5 md:p-6 pt-0">
+            <div class="flex flex-col sm:flex-row gap-3 mt-4">
+              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់សង្គម)', 'វិញ្ញាសា')" class="flex-1 py-2.5 px-4 bg-teal-50 dark:bg-slate-900 hover:bg-teal-100 text-teal-700 font-bold rounded-2xl flex items-center justify-center gap-2 border border-teal-200">
+                                <i class="fa-regular fa-file-pdf"></i> មើលវិញ្ញាសា
+                            </button>
+              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់សង្គម)', 'ដំណោះស្រាយ')" class="flex-1 py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 btn-3d border-teal-800">
+                                <i class="fa-solid fa-square-root-variable"></i> មើលដំណោះស្រាយ
+                            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- PDF Modal (សម្រាប់បង្ហាញតែ PDF ប៉ុណ្ណោះ - គ្មានប៊ូតុងកែសម្រួល) -->
+  <div id="pdfModal"
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div
+      class="bg-white dark:bg-slate-800 w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div id="pdfModalHeaderColor" class="p-4 md:p-6 text-white flex items-center justify-between">
+        <div>
+          <h3 id="pdfModalTitle" class="text-sm md:text-xl font-bold">វិញ្ញាសាគណិតវិទ្យា</h3>
+          <p id="pdfModalSubtitle" class="text-[10px] md:text-xs opacity-90">បង្ហាញឯកសារ PDF ពី Google Drive</p>
+        </div>
+        <button onclick="closePdfModal()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-sm md:text-lg"></i>
+                </button>
+      </div>
+      <div class="p-4 md:p-6 overflow-y-auto flex-grow">
+        <div id="pdfViewerContainer"
+          class="w-full min-h-[65vh] bg-slate-100 dark:bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center">
+          <div class="text-center text-gray-500">
+            <i class="fa-solid fa-spinner fa-spin text-3xl mb-2"></i>
+            <p>កំពុងផ្ទុក PDF...</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 dark:bg-slate-900 px-4 md:p-6 py-4 border-t flex justify-end">
+        <button onclick="closePdfModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-sm">
+                    បិទ
+                </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Toast Notification -->
+  <div id="toast"
+    class="fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 transition-all transform translate-y-20 opacity-0 z-50">
+    <i class="fa-solid fa-circle-check text-green-400"></i>
+    <span id="toastMessage"></span>
+  </div>
+
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-8 md:py-10 mt-12 border-t-4">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-6">
+      <div class="flex justify-center">
+        <div class="glowing-light-border rounded-2xl overflow-hidden shadow-xl">
+          <a href="https://laychannhan.blogspot.com/" target="_blank"
+            class="bg-slate-900 text-white px-6 md:px-8 py-3 rounded-xl text-xs md:text-base font-bold flex items-center gap-3">
+            <i class="fa-solid fa-envelope-open-text text-amber-400"></i>
+            <span>ទំនាក់ទំនងទៅកាន់អ្នកបង្កើតកម្មវិធី</span>
+          </a>
+        </div>
+      </div>
+      <div class="flex justify-center gap-6 text-xl md:text-2xl">
+        <a href="https://www.facebook.com/laychannhan" target="_blank"
+          class="hover:text-blue-500"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://t.me/laychannhan" target="_blank"
+          class="hover:text-blue-400"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://www.youtube.com/@cammathtips" target="_blank"
+          class="hover:text-red-500"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+      <p class="text-xs md:text-sm">គេហទំព័រនេះបង្កើតឡើងដើម្បីជាជំនួយដល់ប្អូនៗសិស្សានុសិស្សថ្នាក់ទី១២</p>
+    </div>
+  </footer>
+
+
+  <script>
+    // ============================================================
+        // 📌 បញ្ចូល Link PDF ពី Google Drive ត្រង់នេះ!!!
+        // ============================================================
+        // ទម្រង់ Key: `មុខវិជ្ជា_ប្រភេទ_ឆ្នាំ`
+        // ប្រភេទ: 'exam' = វិញ្ញាសា, 'solution' = ដំណោះស្រាយ
+        // ============================================================
+       
+        const PDF_LINKS = {
+            // ========== ថ្នាក់វិទ្យាសាស្ត្រ ==========
+           
+            // --- ឆ្នាំ ២០០២ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2002": "https://drive.google.com/file/d/1yxL_pOqB64WulY1Gx3uZrdZ8yJ5Woea8/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2002": "https://drive.google.com/file/d/1BvtARLm0RNQEpCcmhoxkblyjsNL6Ny6g/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៣ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៤ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៥ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2005": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2005": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៦ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2006": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2006": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៧ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2007": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2007": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៨ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2008": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2008": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៩ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2009": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2009": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១០ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2010": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2010": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១១ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2011": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2011": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១២ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2012": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2012": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៣ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2013": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2013": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៤ (លើកទី១) ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2014_1": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2014_1": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៤ (លើកទី២) ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2014_2": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2014_2": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៥ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2015": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2015": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៦ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2016": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2016": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៧ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2017": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2017": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៨ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2018": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2018": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០១៩ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2019": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2019": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០២០ (សម័យ Covid - មិនមានប្រឡង) ---
+            // ឆ្នាំ ២០២០ មិនមានវិញ្ញាសាទេ ដូច្នេះមិនចាំបាច់ដាក់ Link
+           
+            // --- ឆ្នាំ ២០២១ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2021": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2021": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០២២ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2022": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2022": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០២៣ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2023": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2023": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០២៤ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2024": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2024": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០២៥ ---
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+
+
+
+
+            // ========== ថ្នាក់សង្គម ==========
+           
+            // --- ឆ្នាំ ២០០២ ---
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2002": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2002": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៣ ---
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- ឆ្នាំ ២០០៤ ---
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+           
+            // --- បន្ថែមបន្តរហូតដល់ឆ្នាំ ២០២៥ ---
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
+        };
+
+
+        // ============================================================
+        // ចប់ការបញ្ចូល Link PDF
+        // ============================================================
+
+
+        // Years data
+        const yearsData = [];
+        for (let year = 2025; year >= 2002; year--) {
+            if (year === 2014) {
+                yearsData.push({ id: '2014_1', value: 2014, suffix: ' (១)', label: '២០១៤ (១)' });
+                yearsData.push({ id: '2014_2', value: 2014, suffix: ' (២)', label: '២០១៤ (២)' });
+            } else if (year === 2020) {
+                continue;
+            } else {
+                yearsData.push({ id: year.toString(), value: year, suffix: '', label: convertToKhmerNumber(year) });
+            }
+        }
+
+
+        const buttonColors = [
+            { bg: 'bg-[#ff4757]', text: 'text-white', border: 'border-[#ff1e30] border-b-red-800 border-r-red-800', icon: 'fa-square-root-variable' },
+            { bg: 'bg-[#2ed573]', text: 'text-white', border: 'border-[#1ebc56] border-b-green-800 border-r-green-800', icon: 'fa-calculator' },
+            { bg: 'bg-[#ffa502]', text: 'text-white', border: 'border-[#e69100] border-b-orange-800 border-r-orange-800', icon: 'fa-compass' },
+            { bg: 'bg-[#1e90ff]', text: 'text-white', border: 'border-[#0070e0] border-b-blue-800 border-r-blue-800', icon: 'fa-chart-pie' },
+            { bg: 'bg-[#9b5de5]', text: 'text-white', border: 'border-[#7d3fc2] border-b-purple-800 border-r-purple-800', icon: 'fa-infinity' },
+            { bg: 'bg-[#00f5d4]', text: 'text-gray-900', border: 'border-[#00d0b4] border-b-teal-800 border-r-teal-800', icon: 'fa-wave-square' },
+            { bg: 'bg-[#ff006e]', text: 'text-white', border: 'border-[#d90059] border-b-pink-800 border-r-pink-800', icon: 'fa-graduation-cap' },
+            { bg: 'bg-[#3a86c8]', text: 'text-white', border: 'border-[#266ea8] border-b-indigo-900 border-r-indigo-900', icon: 'fa-pencil' },
+            { bg: 'bg-[#ffcc00]', text: 'text-gray-900', border: 'border-[#cca300] border-b-yellow-800 border-r-yellow-800', icon: 'fa-bezier-curve' }
+        ];
+
+
+        let selectedYear = null;
+        let selectedSubjectName = '';
+        let selectedDocType = '';
+
+
+        function convertToKhmerNumber(num) {
+            const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
+            return num.toString().split('').map(d => !isNaN(parseInt(d)) ? khmerDigits[parseInt(d)] : d).join('');
+        }
+
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('light')) {
+                html.classList.remove('light');
+                html.classList.add('dark');
+                icon.className = "fa-solid fa-sun text-yellow-300";
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                icon.className = "fa-solid fa-moon text-indigo-200";
+            }
+        }
+
+
+        function renderButtons(filter = '') {
+            const container = document.getElementById('buttonsContainer');
+            container.innerHTML = '';
+            let count = 0;
+            yearsData.forEach((yearObj, idx) => {
+                const label = yearObj.label;
+                if (filter && !yearObj.value.toString().includes(filter) && !label.includes(filter)) return;
+                const color = buttonColors[idx % buttonColors.length];
+                const btn = document.createElement('button');
+                btn.className = `btn-3d ${color.bg} ${color.text} border-2 ${color.border} rounded-2xl p-4 md:p-6 flex flex-col items-center justify-center gap-2 shadow-md`;
+                btn.onclick = () => selectYear(yearObj, color.bg, color.border);
+                btn.innerHTML = `
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 flex items-center justify-center text-lg shadow-inner">
+                        <i class="fa-solid ${color.icon}"></i>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[8px] uppercase opacity-90">ឆ្នាំសិក្សា</span>
+                        <span class="block text-lg md:text-xl font-bold">${label}</span>
+                    </div>
+                `;
+                container.appendChild(btn);
+                count++;
+            });
+            document.getElementById('resultsCount').innerText = `បង្ហាញ ${convertToKhmerNumber(count)} ឆ្នាំ`;
+        }
+
+
+        function filterYears() {
+            renderButtons(document.getElementById('yearSearchInput').value);
+        }
+
+
+        function selectYear(yearObj, bg, border) {
+            selectedYear = yearObj;
+            document.getElementById('yearsGridSection').classList.add('hidden');
+            const subSec = document.getElementById('subjectSection');
+            subSec.classList.remove('hidden');
+            const badge = document.getElementById('selectedYearBadge');
+            badge.innerText = `ឆ្នាំ ${yearObj.label}`;
+            badge.className = `text-xs md:text-lg font-bold px-4 py-2 rounded-2xl text-white shadow-md btn-3d ${bg} border-2 ${border}`;
+            subSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        function showYearsGrid() {
+            document.getElementById('subjectSection').classList.add('hidden');
+            document.getElementById('yearsGridSection').classList.remove('hidden');
+            selectedYear = null;
+        }
+
+
+        function getEmbedUrl(link) {
+            if (!link) return null;
+            let match = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+            match = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+            return link;
+        }
+
+
+        function openPdfModal(subject, type) {
+            selectedSubjectName = subject;
+            selectedDocType = type;
+           
+            const typeKey = type === 'វិញ្ញាសា' ? 'exam' : 'solution';
+            const key = `${subject}_${typeKey}_${selectedYear.id}`;
+            const pdfLink = PDF_LINKS[key];
+           
+            const modal = document.getElementById('pdfModal');
+            const title = document.getElementById('pdfModalTitle');
+            const subtitle = document.getElementById('pdfModalSubtitle');
+            const header = document.getElementById('pdfModalHeaderColor');
+            const container = document.getElementById('pdfViewerContainer');
+           
+            const gradient = subject.includes('សង្គម') ? 'from-teal-600 to-emerald-500' : 'from-red-600 to-rose-500';
+            header.className = `p-4 md:p-6 text-white flex items-center justify-between bg-gradient-to-r ${gradient}`;
+           
+            title.innerText = `${type}៖ ${subject} ឆ្នាំ ${selectedYear.label}`;
+            subtitle.innerText = `បាក់ឌុប - បង្ហាញពី Google Drive`;
+           
+            if (pdfLink && pdfLink !== 'https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing') {
+                const embedUrl = getEmbedUrl(pdfLink);
+                container.innerHTML = `<iframe src="${embedUrl}" class="w-full h-[65vh] rounded-xl" frameborder="0" allow="autoplay"></iframe>`;
+            } else {
+                container.innerHTML = `
+                    <div class="text-center p-8">
+                        <i class="fa-solid fa-file-pdf text-6xl text-red-400 mb-4"></i>
+                        <p class="text-gray-600 dark:text-slate-400 text-base font-medium">មិនទាន់មានឯកសារ PDF សម្រាប់ឆ្នាំនេះទេ</p>
+                        <p class="text-sm text-gray-500 dark:text-slate-500 mt-2">សូមអភ័យទោស! យើងខ្ញុំកំពុងបន្ថែមឯកសារបន្តិចម្តងៗ</p>
+                        <p class="text-xs text-gray-400 mt-4">ប្រសិនបើអ្នកមានឯកសារ សូមទំនាក់ទំនងមកពួកយើងខ្ញុំ</p>
+                    </div>
+                `;
+            }
+           
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+
+        function closePdfModal() {
+            document.getElementById('pdfModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('pdfViewerContainer').innerHTML = `
+                <div class="text-center text-gray-500">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl mb-2"></i>
+                    <p>កំពុងផ្ទុក PDF...</p>
+                </div>
+            `;
+        }
+
+
+        window.onload = () => {
+            renderButtons();
+        };
+  </script>
+</body>
+
+
+</html>
