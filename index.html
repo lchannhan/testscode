@@ -1,611 +1,967 @@
 <!DOCTYPE html>
-<html lang="km" class="light">
-
-
+<html lang="km">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>វិញ្ញាសា និងដំណោះស្រាយគណិតវិទ្យាបាក់ឌុប (២០០២ - ២០២៥)</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-            darkMode: 'class'
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>កម្មវិធីចាប់ឈ្មោះសិស្ស - ប្រណាំងកង់ធ្វើលំហាត់</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Khmer and English -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
-  </script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Siemreap&display=swap"
-    rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- MathJax -->
-  <script>
-    window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true,
-                macros: { R: "{\\mathbb{R}}", N: "{\\mathbb{N}}" }
-            },
-            options: {
-                ignoreHtmlClass: 'tex2jax_ignore',
-                processHtmlClass: 'tex2jax_process'
-            },
-            chtml: { scale: 1.05 },
-            startup: { pageReady: () => { return MathJax.startup.defaultPageReady(); } }
-        };
-  </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+        /* Custom scrollbar for student list and arena */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
 
+        /* Track animations */
+        @keyframes move-bg {
+            0% { background-position: 0px 0px; }
+            100% { background-position: -40px 0px; }
+        }
+        .running-track {
+            background-image: linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 100%;
+        }
+        .track-moving {
+            animation: move-bg 0.5s linear infinite;
+        }
 
-  <style>
-    body {
-      font-family: 'Kantumruy Pro', 'Siemreap', sans-serif;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-
-    .btn-3d {
-      position: relative;
-      transition: all 0.1s ease;
-      border-bottom-width: 6px;
-      border-right-width: 4px;
-    }
-
-
-    .btn-3d:hover {
-      transform: translateY(-2px) translateX(-1px);
-      filter: brightness(1.05);
-    }
-
-
-    .btn-3d:active {
-      transform: translateY(4px) translateX(2px);
-      border-bottom-width: 2px;
-      border-right-width: 1px;
-      margin-top: 4px;
-      margin-bottom: -4px;
-    }
-
-
-    @keyframes rainbow-glow {
-      0% {
-        background-position: 0% 50%;
-      }
-
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-
-    .glowing-light-border {
-      position: relative;
-      background: linear-gradient(90deg, #ff4500, #ff8c00, #ffd700, #32cd32, #1e90ff, #9370db, #ff4500);
-      background-size: 400% 400%;
-      animation: rainbow-glow 3s linear infinite;
-      padding: 2.5px;
-    }
-
-
-    iframe {
-      border-radius: 0.75rem;
-      background: #f1f5f9;
-    }
-
-
-    .dark iframe {
-      background: #1e293b;
-    }
-  </style>
+        /* Bicycle wheel rotation */
+        @keyframes rotate-wheel {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Precise rotation for front wheel around its own center (45px, 30px) */
+        .wheel-spin-front {
+            animation: rotate-wheel 0.5s linear infinite;
+            transform-origin: 45px 30px;
+        }
+        
+        /* Precise rotation for rear wheel around its own center (20px, 30px) */
+        .wheel-spin-rear {
+            animation: rotate-wheel 0.5s linear infinite;
+            transform-origin: 20px 30px;
+        }
+    </style>
 </head>
+<body class="p-4 md:p-8 flex flex-col justify-between">
 
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto w-full text-center mb-6">
+        <h1 class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-pink-500 to-yellow-400 bg-clip-text text-transparent flex items-center justify-center gap-3">
+            <i class="fa-solid fa-bicycle text-yellow-400 animate-bounce"></i>
+            ប្រណាំងកង់រកអ្នកធ្វើលំហាត់
+        </h1>
+        <p class="text-slate-400 mt-2 text-sm md:text-base">ចាប់ឈ្មោះសិស្សឡើងធ្វើលំហាត់ដោយភាពសប្បាយរីករាយ និងមានតម្លាភាព!</p>
+    </header>
 
-<body class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100">
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-4 gap-6 items-start flex-grow">
+        
+        <!-- Left Panel: Student Management (1 Column) -->
+        <section class="bg-slate-900/80 backdrop-blur-md border border-slate-800 p-5 rounded-2xl shadow-xl lg:col-span-1 h-[600px] flex flex-col">
+            <h2 class="text-xl font-semibold mb-4 text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2">
+                <i class="fa-solid fa-users"></i>
+                បញ្ជីឈ្មោះសិស្ស (<span id="student-count">0</span>)
+            </h2>
+            
+            <!-- Quick Add Form -->
+            <form id="add-student-form" class="mb-4">
+                <div class="flex gap-2">
+                    <input 
+                        type="text" 
+                        id="student-name-input" 
+                        placeholder="បញ្ចូលឈ្មោះសិស្ស..." 
+                        class="bg-slate-800/80 border border-slate-700 text-slate-100 placeholder-slate-500 rounded-xl px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-cyan-400 text-sm transition-all"
+                        required
+                        maxlength="15"
+                    >
+                    <button 
+                        type="submit" 
+                        class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold px-4 py-2 rounded-xl transition-all shadow-md active:scale-95 text-sm flex items-center gap-1"
+                    >
+                        <i class="fa-solid fa-plus"></i> បន្ថែម
+                    </button>
+                </div>
+            </form>
 
-
-  <!-- Header -->
-  <header
-    class="sticky top-0 z-50 bg-gradient-to-r from-blue-700/95 via-indigo-600/95 to-cyan-500/95 dark:from-slate-850/95 dark:via-slate-800/95 dark:to-slate-900/95 backdrop-blur-md text-white shadow-lg border-b-4 border-blue-800 dark:border-slate-950">
-    <div class="max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div
-          class="bg-white dark:bg-slate-800 text-indigo-600 dark:text-cyan-400 p-2 md:p-3 rounded-xl md:rounded-2xl shadow-inner border border-indigo-200 dark:border-slate-700">
-          <i class="fa-solid fa-calculator text-xl md:text-2xl"></i>
-        </div>
-        <div>
-          <h1 class="text-lg md:text-2xl font-bold tracking-wide"><span>គណិតវិទ្យា បាក់ឌុប</span></h1>
-          <p class="text-[10px] md:text-xs opacity-90 hidden sm:block mt-0.5">ប្រភពប្រមូលផ្តុំវិញ្ញាសា
-            និងដំណោះស្រាយថ្នាក់វិទ្យាសាស្ត្រ និងសង្គម</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2 md:gap-4">
-        <button onclick="toggleTheme()" class="bg-white/10 dark:bg-slate-800/80 hover:bg-white/20 p-2 md:p-2.5 rounded-xl border border-white/20 dark:border-slate-700">
-                    <i id="themeIcon" class="fa-solid fa-moon text-base md:text-lg text-yellow-300 dark:text-yellow-400"></i>
+            <!-- Bulk Add & Reset Buttons -->
+            <div class="grid grid-cols-2 gap-2 mb-4 text-xs">
+                <button 
+                    onclick="loadDemoStudents()" 
+                    class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 py-2 px-3 rounded-lg flex items-center justify-center gap-1 transition-all"
+                >
+                    <i class="fa-solid fa-magic-wand-sparkles"></i> ឈ្មោះគំរូ ១០នាក់
                 </button>
-        <div class="glowing-light-border rounded-xl md:rounded-2xl overflow-hidden shadow-lg">
-          <a href="https://laychannhan.blogspot.com/" target="_blank"
-            class="bg-slate-900 hover:bg-slate-850 text-white px-3 md:px-5 py-2 md:py-2.5 rounded-lg text-xs md:text-sm font-bold flex items-center gap-1.5">
-            <i class="fa-solid fa-circle-user text-amber-400"></i>
-            <span>អ្នកបង្កើត</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-  <!-- Main Content -->
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 md:py-8">
-    <!-- Welcome banner -->
-    <div
-      class="bg-white dark:bg-slate-800 rounded-3xl p-5 md:p-8 shadow-sm mb-6 md:mb-8 border-2 border-indigo-100 dark:border-slate-750 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="space-y-2 max-w-xl text-center md:text-left">
-        <h2 class="text-lg md:text-2xl font-bold text-gray-800 dark:text-slate-100 flex items-center gap-2">
-          <i class="fa-solid fa-search-plus text-indigo-500 dark:text-cyan-400"></i>
-          ស្វែងរកវិញ្ញាសាគណិតវិទ្យា
-        </h2>
-        <p class="text-xs md:text-sm text-gray-500 dark:text-slate-400">សូមជ្រើសរើសឆ្នាំសិក្សាណាមួយ ដើម្បីមើលវិញ្ញាសា
-          និងដំណោះស្រាយគណិតវិទ្យា។</p>
-      </div>
-      <div class="w-full md:w-80 relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-                </span>
-        <input type="number" id="yearSearchInput" placeholder="ស្វែងរកឆ្នាំ... (ឧ. ២០២៤)"
-                       class="w-full pl-10 pr-4 py-3 rounded-2xl border-2 border-indigo-100 dark:border-slate-700 bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                       min="2002" max="2025" oninput="filterYears()">
-      </div>
-    </div>
-
-
-    <!-- Year Grid Section -->
-    <div id="yearsGridSection" class="space-y-6">
-      <div class="flex items-center justify-between border-b-2 border-gray-200 dark:border-slate-750 pb-4">
-        <h3 class="text-sm md:text-lg font-bold text-gray-700 dark:text-slate-300 flex items-center gap-2">
-          <i class="fa-solid fa-calendar-days text-indigo-500"></i>
-          ជ្រើសរើសឆ្នាំប្រឡង (២០០២ - ២០២៥)
-        </h3>
-        <span class="text-xs md:text-sm font-semibold text-indigo-600 bg-indigo-50 dark:bg-slate-800 px-2.5 py-1 rounded-xl" id="resultsCount"></span>
-      </div>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-5 pb-10"
-        id="buttonsContainer"></div>
-    </div>
-
-
-    <!-- Subject Section -->
-    <div id="subjectSection" class="hidden space-y-6">
-      <div
-        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-2 border-gray-200 dark:border-slate-750 pb-4">
-        <button onclick="showYearsGrid()" class="flex items-center gap-2 text-indigo-600 dark:text-cyan-400 hover:text-indigo-800 font-bold">
-                    <i class="fa-solid fa-circle-arrow-left"></i> ត្រឡប់ទៅឆ្នាំទាំងអស់វិញ
+                <button 
+                    onclick="clearStudents()" 
+                    class="bg-red-950/40 hover:bg-red-900/50 border border-red-800/60 text-red-400 py-2 px-3 rounded-lg flex items-center justify-center gap-1 transition-all"
+                >
+                    <i class="fa-solid fa-trash-can"></i> លុបទាំងអស់
                 </button>
-        <span id="selectedYearBadge" class="text-sm md:text-xl font-bold px-4 py-2 rounded-2xl text-white shadow-md btn-3d">ឆ្នាំ ២០២៣</span>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        <!-- Science Card -->
-        <div class="bg-white dark:bg-slate-800 rounded-3xl border-2 shadow-md overflow-hidden">
-          <div
-            class="bg-gradient-to-r from-red-500 to-rose-600 p-4 md:p-5 text-white flex justify-between items-center border-b-4 border-red-700">
-            <span class="font-bold text-base md:text-xl"><i class="fa-solid fa-calculator mr-2"></i>គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)</span>
-            <span class="text-[10px] md:text-xs bg-white/20 px-2.5 py-1 rounded-full">វិទ្យាសាស្ត្រ</span>
-          </div>
-          <div class="p-5 md:p-6 pt-0">
-            <div class="flex flex-col sm:flex-row gap-3 mt-4">
-              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)', 'វិញ្ញាសា')" class="flex-1 py-2.5 px-4 bg-red-50 dark:bg-slate-900 hover:bg-red-100 text-red-700 font-bold rounded-2xl flex items-center justify-center gap-2 border border-red-200">
-                                <i class="fa-regular fa-file-pdf"></i> មើលវិញ្ញាសា
-                            </button>
-              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)', 'ដំណោះស្រាយ')" class="flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 btn-3d border-red-800">
-                                <i class="fa-solid fa-square-root-variable"></i> មើលដំណោះស្រាយ
-                            </button>
             </div>
-          </div>
-        </div>
-        <!-- Social Card -->
-        <div class="bg-white dark:bg-slate-800 rounded-3xl border-2 shadow-md overflow-hidden">
-          <div
-            class="bg-gradient-to-r from-teal-500 to-emerald-600 p-4 md:p-5 text-white flex justify-between items-center border-b-4 border-teal-700">
-            <span class="font-bold text-base md:text-xl"><i class="fa-solid fa-chart-line mr-2"></i>គណិតវិទ្យា (ថ្នាក់សង្គម)</span>
-            <span class="text-[10px] md:text-xs bg-white/20 px-2.5 py-1 rounded-full">សង្គម</span>
-          </div>
-          <div class="p-5 md:p-6 pt-0">
-            <div class="flex flex-col sm:flex-row gap-3 mt-4">
-              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់សង្គម)', 'វិញ្ញាសា')" class="flex-1 py-2.5 px-4 bg-teal-50 dark:bg-slate-900 hover:bg-teal-100 text-teal-700 font-bold rounded-2xl flex items-center justify-center gap-2 border border-teal-200">
-                                <i class="fa-regular fa-file-pdf"></i> មើលវិញ្ញាសា
-                            </button>
-              <button onclick="openPdfModal('គណិតវិទ្យា (ថ្នាក់សង្គម)', 'ដំណោះស្រាយ')" class="flex-1 py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 btn-3d border-teal-800">
-                                <i class="fa-solid fa-square-root-variable"></i> មើលដំណោះស្រាយ
-                            </button>
+
+            <!-- Student List Container -->
+            <div id="student-list" class="flex-grow overflow-y-auto custom-scrollbar space-y-2 pr-1">
+                <!-- Students will be generated dynamically -->
+                <div id="empty-state" class="text-center text-slate-500 py-10 flex flex-col items-center justify-center gap-3">
+                    <i class="fa-solid fa-user-slash text-4xl"></i>
+                    <p class="text-sm">មិនទាន់មានសិស្សនៅឡើយទេ<br>សូមបន្ថែមឈ្មោះសិស្ស!</p>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+        </section>
 
+        <!-- Right Panel: Race Track Area (3 Columns) -->
+        <section class="lg:col-span-3 flex flex-col gap-6 h-[600px]">
+            
+            <!-- Controls & Arena Panel -->
+            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 p-5 rounded-2xl shadow-xl flex flex-col justify-between h-full">
+                
+                <!-- Arena Header / Race Info -->
+                <div class="flex flex-wrap justify-between items-center gap-4 mb-4 pb-3 border-b border-slate-800">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-flag-checkered text-yellow-400"></i>
+                            ទីលានប្រណាំងកង់ផ្កាយវិថី
+                        </h3>
+                        <p class="text-xs text-slate-400">កង់ដែលទៅដល់បង្គោលទីមុនគេ នឹងក្លាយជាអ្នកឡើងធ្វើលំហាត់!</p>
+                    </div>
+                    
+                    <!-- Sound, Speed (Seconds) Input & Actions -->
+                    <div class="flex flex-wrap items-center gap-3">
+                        
+                        <!-- Interactive Speed/Seconds Controller -->
+                        <div class="flex items-center gap-1.5 bg-slate-800/95 p-1 px-2 rounded-xl border border-slate-700 shadow-inner">
+                            <span class="text-[11px] text-slate-300 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-stopwatch text-cyan-400"></i> រយៈពេល (វិនាទី)៖
+                            </span>
+                            <div class="flex items-center bg-slate-950 rounded-lg overflow-hidden border border-slate-700 h-8">
+                                <button 
+                                    type="button" 
+                                    id="btn-dur-minus"
+                                    onclick="adjustDuration(-1)" 
+                                    class="px-2.5 h-full text-slate-400 hover:text-white hover:bg-slate-800 text-xs font-bold transition-all"
+                                    title="បន្ថយវិនាទី"
+                                >
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                                <input 
+                                    type="number" 
+                                    id="race-duration" 
+                                    value="5" 
+                                    min="2" 
+                                    max="60" 
+                                    class="w-10 h-full bg-transparent text-center text-cyan-400 font-bold text-xs focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                >
+                                <button 
+                                    type="button" 
+                                    id="btn-dur-plus"
+                                    onclick="adjustDuration(1)" 
+                                    class="px-2.5 h-full text-slate-400 hover:text-white hover:bg-slate-800 text-xs font-bold transition-all"
+                                    title="បន្ថែមវិនាទី"
+                                >
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
 
-  <!-- PDF Modal (សម្រាប់បង្ហាញតែ PDF ប៉ុណ្ណោះ - គ្មានប៊ូតុងកែសម្រួល) -->
-  <div id="pdfModal"
-    class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div
-      class="bg-white dark:bg-slate-800 w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div id="pdfModalHeaderColor" class="p-4 md:p-6 text-white flex items-center justify-between">
-        <div>
-          <h3 id="pdfModalTitle" class="text-sm md:text-xl font-bold">វិញ្ញាសាគណិតវិទ្យា</h3>
-          <p id="pdfModalSubtitle" class="text-[10px] md:text-xs opacity-90">បង្ហាញឯកសារ PDF ពី Google Drive</p>
-        </div>
-        <button onclick="closePdfModal()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark text-sm md:text-lg"></i>
-                </button>
-      </div>
-      <div class="p-4 md:p-6 overflow-y-auto flex-grow">
-        <div id="pdfViewerContainer"
-          class="w-full min-h-[65vh] bg-slate-100 dark:bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center">
-          <div class="text-center text-gray-500">
-            <i class="fa-solid fa-spinner fa-spin text-3xl mb-2"></i>
-            <p>កំពុងផ្ទុក PDF...</p>
-          </div>
-        </div>
-      </div>
-      <div class="bg-gray-50 dark:bg-slate-900 px-4 md:p-6 py-4 border-t flex justify-end">
-        <button onclick="closePdfModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-sm">
+                        <button 
+                            id="sound-toggle" 
+                            onclick="toggleSound()" 
+                            class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2.5 rounded-xl transition-all border border-slate-700"
+                            title="បើក/បិទសំឡេង"
+                        >
+                            <i id="sound-icon" class="fa-solid fa-volume-high"></i>
+                        </button>
+                        
+                        <button 
+                            id="start-race-btn" 
+                            onclick="startRace()" 
+                            class="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 hover:from-yellow-400 hover:to-red-400 text-slate-950 font-extrabold px-6 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-yellow-500/20 active:scale-95 flex items-center gap-2 text-base uppercase tracking-wider"
+                        >
+                            <i class="fa-solid fa-play"></i> ចាប់ផ្តើមប្រណាំង!
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Race Tracks Container with Scroll support for unlimited racers -->
+                <div id="race-arena-container" class="relative flex-grow overflow-y-auto custom-scrollbar pr-1 max-h-[420px]">
+                    <div id="race-arena" class="relative flex flex-col justify-center space-y-4 py-4 min-h-[300px]">
+                        <!-- Race lanes will be generated here -->
+                        <div id="arena-placeholder" class="text-center text-slate-500 py-20 flex flex-col items-center justify-center gap-4">
+                            <div class="w-16 h-16 rounded-full border-4 border-slate-800 border-t-cyan-500 animate-spin flex items-center justify-center">
+                                <i class="fa-solid fa-bicycle text-cyan-400 text-xl"></i>
+                            </div>
+                            <p class="text-sm">រង់ចាំការរៀបចំផ្លូវប្រណាំង...<br>សូមជ្រើសរើស ឬបន្ថែមសិស្សយ៉ាងហោចណាស់ ២ នាក់!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ground/Base Info with Creator Link -->
+                <div class="mt-4 pt-3 border-t border-slate-800 text-center flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-slate-500">
+                    <span><i class="fa-solid fa-circle-info mr-1"></i> មិនកំណត់ចំនួនសិស្សសម្រាប់ការប្រណាំងម្តងៗឡើយ</span>
+                    <span class="flex items-center gap-2">
+                        <span>កំណែទម្រង់ v1.7</span>
+                        <span class="text-slate-700">|</span>
+                        <a href="https://laychannhan.blogspot.com" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:text-cyan-300 hover:underline flex items-center gap-1 transition-all">
+                            <i class="fa-solid fa-code text-[10px]"></i> អ្នកបង្កើតកម្មវិធី
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Winner Modal / Dialog -->
+    <div id="winner-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500 scale-95">
+        <div class="bg-gradient-to-b from-slate-900 to-indigo-950 border-2 border-yellow-400 p-8 rounded-3xl max-w-md w-full mx-4 text-center shadow-2xl relative overflow-hidden">
+            
+            <!-- Confetti & Light effects inside modal -->
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
+
+            <!-- Winner Icon -->
+            <div class="relative w-24 h-24 mx-auto mb-4">
+                <div class="absolute inset-0 bg-yellow-400/20 rounded-full animate-ping"></div>
+                <div class="relative bg-gradient-to-tr from-yellow-500 to-amber-300 w-24 h-24 rounded-full flex items-center justify-center shadow-lg border-4 border-yellow-400">
+                    <i class="fa-solid fa-trophy text-slate-900 text-5xl animate-bounce"></i>
+                </div>
+            </div>
+
+            <!-- Winner Announcements -->
+            <span class="bg-yellow-400/15 text-yellow-400 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-yellow-400/30">
+                ជើងឯកល្បឿនលឿនបង្អស់
+            </span>
+            
+            <h2 class="text-3xl font-extrabold text-slate-100 mt-4 mb-2">សូមអបអរសាទរ!</h2>
+            
+            <!-- Winning Student's Name Box -->
+            <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-2xl my-4 transform scale-105 transition-all">
+                <p id="winner-name" class="text-4xl font-extrabold bg-gradient-to-r from-yellow-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent drop-shadow">
+                    សិស្សគំរូ
+                </p>
+                <p class="text-xs text-slate-400 mt-2">ត្រូវឡើងមកដោះស្រាយលំហាត់មុនគេនៅលើក្តារខៀន!</p>
+            </div>
+
+            <!-- NEW: Option to remove or keep student -->
+            <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-3 my-4 flex items-center justify-between text-left">
+                <div class="flex flex-col">
+                    <span class="text-xs font-semibold text-slate-200">ដកឈ្មោះសិស្សនេះចេញពីបញ្ជី</span>
+                    <span class="text-[10px] text-slate-400">លុបចេញពីការប្រណាំងបន្ទាប់</span>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="remove-winner-checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-slate-750 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-400 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500 peer-checked:after:bg-white"></div>
+                </label>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex gap-3 justify-center mt-6">
+                <button 
+                    onclick="handleCloseWinnerModal(false)" 
+                    class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-95"
+                >
                     បិទ
                 </button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Toast Notification -->
-  <div id="toast"
-    class="fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 transition-all transform translate-y-20 opacity-0 z-50">
-    <i class="fa-solid fa-circle-check text-green-400"></i>
-    <span id="toastMessage"></span>
-  </div>
-
-
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-400 py-8 md:py-10 mt-12 border-t-4">
-    <div class="max-w-7xl mx-auto px-4 text-center space-y-6">
-      <div class="flex justify-center">
-        <div class="glowing-light-border rounded-2xl overflow-hidden shadow-xl">
-          <a href="https://laychannhan.blogspot.com/" target="_blank"
-            class="bg-slate-900 text-white px-6 md:px-8 py-3 rounded-xl text-xs md:text-base font-bold flex items-center gap-3">
-            <i class="fa-solid fa-envelope-open-text text-amber-400"></i>
-            <span>ទំនាក់ទំនងទៅកាន់អ្នកបង្កើតកម្មវិធី</span>
-          </a>
+                <button 
+                    onclick="handleCloseWinnerModal(true)" 
+                    class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1"
+                >
+                    <i class="fa-solid fa-rotate"></i> ប្រណាំងម្តងទៀត
+                </button>
+            </div>
         </div>
-      </div>
-      <div class="flex justify-center gap-6 text-xl md:text-2xl">
-        <a href="https://www.facebook.com/laychannhan" target="_blank"
-          class="hover:text-blue-500"><i class="fa-brands fa-facebook"></i></a>
-        <a href="https://t.me/laychannhan" target="_blank"
-          class="hover:text-blue-400"><i class="fa-brands fa-telegram"></i></a>
-        <a href="https://www.youtube.com/@cammathtips" target="_blank"
-          class="hover:text-red-500"><i class="fa-brands fa-youtube"></i></a>
-      </div>
-      <p class="text-xs md:text-sm">គេហទំព័រនេះបង្កើតឡើងដើម្បីជាជំនួយដល់ប្អូនៗសិស្សានុសិស្សថ្នាក់ទី១២</p>
     </div>
-  </footer>
 
+    <!-- Web Audio Synthesizer Script for game sounds and background music -->
+    <script>
+        // Sound configuration
+        let isSoundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let musicIntervalId = null;
+        let musicStep = 0;
 
-  <script>
-    // ============================================================
-        // 📌 បញ្ចូល Link PDF ពី Google Drive ត្រង់នេះ!!!
-        // ============================================================
-        // ទម្រង់ Key: `មុខវិជ្ជា_ប្រភេទ_ឆ្នាំ`
-        // ប្រភេទ: 'exam' = វិញ្ញាសា, 'solution' = ដំណោះស្រាយ
-        // ============================================================
-       
-        const PDF_LINKS = {
-            // ========== ថ្នាក់វិទ្យាសាស្ត្រ ==========
-           
-            // --- ឆ្នាំ ២០០២ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2002": "https://drive.google.com/file/d/1yxL_pOqB64WulY1Gx3uZrdZ8yJ5Woea8/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2002": "https://drive.google.com/file/d/1BvtARLm0RNQEpCcmhoxkblyjsNL6Ny6g/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៣ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៤ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៥ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2005": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2005": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៦ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2006": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2006": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៧ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2007": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2007": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៨ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2008": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2008": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៩ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2009": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2009": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១០ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2010": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2010": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១១ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2011": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2011": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១២ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2012": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2012": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៣ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2013": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2013": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៤ (លើកទី១) ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2014_1": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2014_1": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៤ (លើកទី២) ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2014_2": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2014_2": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៥ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2015": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2015": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៦ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2016": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2016": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៧ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2017": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2017": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៨ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2018": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2018": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០១៩ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2019": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2019": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០២០ (សម័យ Covid - មិនមានប្រឡង) ---
-            // ឆ្នាំ ២០២០ មិនមានវិញ្ញាសាទេ ដូច្នេះមិនចាំបាច់ដាក់ Link
-           
-            // --- ឆ្នាំ ២០២១ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2021": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2021": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០២២ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2022": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2022": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០២៣ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2023": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2023": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០២៤ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2024": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2024": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០២៥ ---
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_exam_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់វិទ្យាសាស្ត្រ)_solution_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-
-
-
-
-            // ========== ថ្នាក់សង្គម ==========
-           
-            // --- ឆ្នាំ ២០០២ ---
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2002": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2002": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៣ ---
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2003": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- ឆ្នាំ ២០០៤ ---
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2004": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-           
-            // --- បន្ថែមបន្តរហូតដល់ឆ្នាំ ២០២៥ ---
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_exam_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-            "គណិតវិទ្យា (ថ្នាក់សង្គម)_solution_2025": "https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing",
-        };
-
-
-        // ============================================================
-        // ចប់ការបញ្ចូល Link PDF
-        // ============================================================
-
-
-        // Years data
-        const yearsData = [];
-        for (let year = 2025; year >= 2002; year--) {
-            if (year === 2014) {
-                yearsData.push({ id: '2014_1', value: 2014, suffix: ' (១)', label: '២០១៤ (១)' });
-                yearsData.push({ id: '2014_2', value: 2014, suffix: ' (២)', label: '២០១៤ (២)' });
-            } else if (year === 2020) {
-                continue;
+        function toggleSound() {
+            isSoundEnabled = !isSoundEnabled;
+            const soundIcon = document.getElementById('sound-icon');
+            if (isSoundEnabled) {
+                soundIcon.className = "fa-solid fa-volume-high";
+                playSound(440, 'sine', 0.1); // Quick feedback beep
             } else {
-                yearsData.push({ id: year.toString(), value: year, suffix: '', label: convertToKhmerNumber(year) });
+                soundIcon.className = "fa-solid fa-volume-xmark text-red-400";
+                stopRaceMusic(); // Mute built-in music immediately
             }
         }
 
+        // Helper to synthesize sounds using Web Audio API
+        function playSound(frequency, type = 'sine', duration = 0.1, volume = 0.1) {
+            if (!isSoundEnabled) return;
+            try {
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.type = type;
+                oscillator.frequency.value = frequency;
+                
+                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log('Audio playing issue:', e);
+            }
+        }
 
-        const buttonColors = [
-            { bg: 'bg-[#ff4757]', text: 'text-white', border: 'border-[#ff1e30] border-b-red-800 border-r-red-800', icon: 'fa-square-root-variable' },
-            { bg: 'bg-[#2ed573]', text: 'text-white', border: 'border-[#1ebc56] border-b-green-800 border-r-green-800', icon: 'fa-calculator' },
-            { bg: 'bg-[#ffa502]', text: 'text-white', border: 'border-[#e69100] border-b-orange-800 border-r-orange-800', icon: 'fa-compass' },
-            { bg: 'bg-[#1e90ff]', text: 'text-white', border: 'border-[#0070e0] border-b-blue-800 border-r-blue-800', icon: 'fa-chart-pie' },
-            { bg: 'bg-[#9b5de5]', text: 'text-white', border: 'border-[#7d3fc2] border-b-purple-800 border-r-purple-800', icon: 'fa-infinity' },
-            { bg: 'bg-[#00f5d4]', text: 'text-gray-900', border: 'border-[#00d0b4] border-b-teal-800 border-r-teal-800', icon: 'fa-wave-square' },
-            { bg: 'bg-[#ff006e]', text: 'text-white', border: 'border-[#d90059] border-b-pink-800 border-r-pink-800', icon: 'fa-graduation-cap' },
-            { bg: 'bg-[#3a86c8]', text: 'text-white', border: 'border-[#266ea8] border-b-indigo-900 border-r-indigo-900', icon: 'fa-pencil' },
-            { bg: 'bg-[#ffcc00]', text: 'text-gray-900', border: 'border-[#cca300] border-b-yellow-800 border-r-yellow-800', icon: 'fa-bezier-curve' }
+        // Synthesize dynamic White Noise for custom hi-hat percussion beat
+        function playNoise(duration = 0.05, volume = 0.015) {
+            if (!isSoundEnabled) return;
+            try {
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noiseNode = audioCtx.createBufferSource();
+                noiseNode.buffer = buffer;
+                
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'highpass';
+                filter.frequency.value = 7500;
+
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+                noiseNode.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                noiseNode.start();
+            } catch (e) {
+                // Fail-safe if audio context gets blocked
+            }
+        }
+
+        // Play exciting background music loop during the race
+        function startRaceMusic(durationSec) {
+            if (!isSoundEnabled) return;
+            stopRaceMusic(); // Ensure no multiple loops running
+
+            musicStep = 0;
+            
+            // Adjust tempo based on user's duration config (shorter race -> faster tempo)
+            const baseBpm = 145;
+            const speedFactor = 5 / durationSec;
+            const bpm = Math.max(100, Math.min(220, baseBpm * speedFactor));
+            const stepTime = (60 / bpm) * 1000 / 2; // Eighth note interval
+
+            // Energetic note sequences for exciting tension progression
+            const melody = [
+                329.63, 392.00, 440.00, 392.00, 329.63, 349.23, 392.00, 349.23, // E4, G4, A4, G4, E4, F4, G4, F4
+                293.66, 349.23, 392.00, 349.23, 293.66, 329.63, 349.23, 329.63  // D4, F4, G4, F4, D4, E4, F4, E4
+            ];
+            
+            const bass = [
+                110.00, 110.00, 130.81, 130.81, 146.83, 146.83, 164.81, 164.81, // A2, C3, D3, E3
+                98.00, 98.00, 116.54, 116.54, 130.81, 130.81, 146.83, 146.83   // G2, Bb2, C3, D3
+            ];
+
+            musicIntervalId = setInterval(() => {
+                if (!isRacing) {
+                    stopRaceMusic();
+                    return;
+                }
+
+                // Play bass beat (every alternate step)
+                if (musicStep % 2 === 0) {
+                    const bassNote = bass[Math.floor(musicStep / 2) % bass.length];
+                    playSound(bassNote, 'sawtooth', stepTime / 1000 * 1.5, 0.05);
+                }
+
+                // Play high-paced melody
+                const melNote = melody[musicStep % melody.length];
+                playSound(melNote, 'triangle', stepTime / 1000 * 0.8, 0.04);
+
+                // Add synthesizer hi-hat on upbeat to keep momentum high
+                if (musicStep % 2 === 1) {
+                    playNoise(0.04, 0.02);
+                }
+
+                musicStep++;
+            }, stepTime);
+        }
+
+        // Stop the background music loop
+        function stopRaceMusic() {
+            if (musicIntervalId) {
+                clearInterval(musicIntervalId);
+                musicIntervalId = null;
+            }
+        }
+
+        // Play countdown/start sound
+        function playStartSound() {
+            playSound(330, 'triangle', 0.15, 0.15);
+            setTimeout(() => playSound(440, 'triangle', 0.15, 0.15), 150);
+            setTimeout(() => playSound(554, 'triangle', 0.15, 0.15), 300);
+            setTimeout(() => playSound(659, 'sine', 0.4, 0.2), 450);
+        }
+
+        // Play winning fan-fare sound
+        function playWinnerSound() {
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+            notes.forEach((note, index) => {
+                setTimeout(() => {
+                    playSound(note, 'sine', 0.3, 0.25);
+                }, index * 120);
+            });
+        }
+
+        // Play custom tick sounds during the race
+        function playTickSound() {
+            playSound(220, 'sine', 0.05, 0.05);
+        }
+    </script>
+
+    <!-- Main Game Logic and UI rendering -->
+    <script>
+        // State Management
+        let students = [];
+        let isRacing = false;
+        let animationFrameId = null;
+        let currentWinnerId = null; // To store the winner ID dynamically
+
+        // Colors for bikes
+        const bikeColors = [
+            '#f43f5e', '#3b82f6', '#10b981', '#eab308', '#a855f7', 
+            '#f97316', '#06b6d4', '#ec4899', '#14b8a6', '#84cc16'
         ];
 
-
-        let selectedYear = null;
-        let selectedSubjectName = '';
-        let selectedDocType = '';
-
-
-        function convertToKhmerNumber(num) {
-            const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
-            return num.toString().split('').map(d => !isNaN(parseInt(d)) ? khmerDigits[parseInt(d)] : d).join('');
-        }
-
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            if (html.classList.contains('light')) {
-                html.classList.remove('light');
-                html.classList.add('dark');
-                icon.className = "fa-solid fa-sun text-yellow-300";
+        // Load data from LocalStorage if exists
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('race_students');
+            if (saved) {
+                students = JSON.parse(saved);
             } else {
-                html.classList.remove('dark');
-                html.classList.add('light');
-                icon.className = "fa-solid fa-moon text-indigo-200";
+                // Preload 10 fun Khmer demo names as default
+                students = [
+                    { id: '1', name: 'សុខា' },
+                    { id: '2', name: 'ពិសិដ្ឋ' },
+                    { id: '3', name: 'ចិន្តា' },
+                    { id: '4', name: 'ធារ៉ា' },
+                    { id: '5', name: 'ដារ៉ា' },
+                    { id: '6', name: 'វុទ្ធី' },
+                    { id: '7', name: 'ទេវី' },
+                    { id: '8', name: 'សិលា' },
+                    { id: '9', name: 'ស្រីអូន' },
+                    { id: '10', name: 'ចិត្រា' }
+                ];
             }
+            updateStudentListUI();
+            resetRaceArena();
+        });
+
+        // Save to localStorage helper
+        function saveStudents() {
+            localStorage.setItem('race_students', JSON.stringify(students));
         }
 
+        // Handle Add Student Submit
+        document.getElementById('add-student-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (isRacing) return;
 
-        function renderButtons(filter = '') {
-            const container = document.getElementById('buttonsContainer');
-            container.innerHTML = '';
-            let count = 0;
-            yearsData.forEach((yearObj, idx) => {
-                const label = yearObj.label;
-                if (filter && !yearObj.value.toString().includes(filter) && !label.includes(filter)) return;
-                const color = buttonColors[idx % buttonColors.length];
-                const btn = document.createElement('button');
-                btn.className = `btn-3d ${color.bg} ${color.text} border-2 ${color.border} rounded-2xl p-4 md:p-6 flex flex-col items-center justify-center gap-2 shadow-md`;
-                btn.onclick = () => selectYear(yearObj, color.bg, color.border);
-                btn.innerHTML = `
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 flex items-center justify-center text-lg shadow-inner">
-                        <i class="fa-solid ${color.icon}"></i>
-                    </div>
-                    <div class="text-center">
-                        <span class="block text-[8px] uppercase opacity-90">ឆ្នាំសិក្សា</span>
-                        <span class="block text-lg md:text-xl font-bold">${label}</span>
+            const input = document.getElementById('student-name-input');
+            const name = input.value.trim();
+
+            if (name) {
+                students.push({
+                    id: Date.now().toString(),
+                    name: name
+                });
+                
+                input.value = '';
+                saveStudents();
+                updateStudentListUI();
+                resetRaceArena();
+                playSound(600, 'sine', 0.1, 0.1);
+            }
+        });
+
+        // Load pre-made 10 demo students
+        function loadDemoStudents() {
+            if (isRacing) return;
+            const demoNames = [
+                'សុខា', 'ពិសិដ្ឋ', 'ចិន្តា', 'ធារ៉ា', 'ដារ៉ា', 
+                'វុទ្ធី', 'ទេវី', 'សិលា', 'ស្រីអូន', 'ចិត្រា'
+            ];
+            
+            students = demoNames.map((name, index) => ({
+                id: (Date.now() + index).toString(),
+                name: name
+            }));
+            
+            saveStudents();
+            updateStudentListUI();
+            resetRaceArena();
+            playSound(400, 'triangle', 0.2, 0.1);
+        }
+
+        // Clear all students
+        function clearStudents() {
+            if (isRacing) return;
+            students = [];
+            saveStudents();
+            updateStudentListUI();
+            resetRaceArena();
+        }
+
+        // Delete single student
+        function deleteStudent(id) {
+            if (isRacing) return;
+            students = students.filter(s => s.id !== id);
+            saveStudents();
+            updateStudentListUI();
+            resetRaceArena();
+            playSound(300, 'sawtooth', 0.1, 0.05);
+        }
+
+        // Adjust duration (Seconds) via plus and minus buttons
+        function adjustDuration(amount) {
+            if (isRacing) return;
+            const input = document.getElementById('race-duration');
+            let val = parseInt(input.value) || 5;
+            val += amount;
+            
+            if (val < 2) val = 2;
+            if (val > 60) val = 60;
+            
+            input.value = val;
+            playSound(440, 'sine', 0.05, 0.05);
+        }
+
+        // Update Student count and listing on UI
+        function updateStudentListUI() {
+            const listContainer = document.getElementById('student-list');
+            const countSpan = document.getElementById('student-count');
+            
+            countSpan.innerText = students.length;
+
+            if (students.length === 0) {
+                listContainer.innerHTML = `
+                    <div id="empty-state" class="text-center text-slate-500 py-10 flex flex-col items-center justify-center gap-3">
+                        <i class="fa-solid fa-user-slash text-4xl"></i>
+                        <p class="text-sm">មិនទាន់មានសិស្សនៅឡើយទេ<br>សូមបន្ថែមឈ្មោះសិស្ស!</p>
                     </div>
                 `;
-                container.appendChild(btn);
-                count++;
+                return;
+            }
+
+            listContainer.innerHTML = '';
+            students.forEach((student, index) => {
+                const color = bikeColors[index % bikeColors.length];
+                const studentDiv = document.createElement('div');
+                studentDiv.className = "flex items-center justify-between bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-700 p-2.5 rounded-xl transition-all duration-200";
+                studentDiv.innerHTML = `
+                    <div class="flex items-center gap-2.5 overflow-hidden">
+                        <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color: ${color}"></span>
+                        <span class="text-slate-100 font-medium text-sm truncate">${student.name}</span>
+                    </div>
+                    <button 
+                        onclick="deleteStudent('${student.id}')" 
+                        class="text-slate-500 hover:text-red-400 p-1.5 rounded-lg hover:bg-red-500/10 transition-all"
+                        title="លុបឈ្មោះ"
+                    >
+                        <i class="fa-solid fa-trash text-xs"></i>
+                    </button>
+                `;
+                listContainer.appendChild(studentDiv);
             });
-            document.getElementById('resultsCount').innerText = `បង្ហាញ ${convertToKhmerNumber(count)} ឆ្នាំ`;
         }
 
-
-        function filterYears() {
-            renderButtons(document.getElementById('yearSearchInput').value);
-        }
-
-
-        function selectYear(yearObj, bg, border) {
-            selectedYear = yearObj;
-            document.getElementById('yearsGridSection').classList.add('hidden');
-            const subSec = document.getElementById('subjectSection');
-            subSec.classList.remove('hidden');
-            const badge = document.getElementById('selectedYearBadge');
-            badge.innerText = `ឆ្នាំ ${yearObj.label}`;
-            badge.className = `text-xs md:text-lg font-bold px-4 py-2 rounded-2xl text-white shadow-md btn-3d ${bg} border-2 ${border}`;
-            subSec.scrollIntoView({ behavior: 'smooth' });
-        }
-
-
-        function showYearsGrid() {
-            document.getElementById('subjectSection').classList.add('hidden');
-            document.getElementById('yearsGridSection').classList.remove('hidden');
-            selectedYear = null;
-        }
-
-
-        function getEmbedUrl(link) {
-            if (!link) return null;
-            let match = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-            if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
-            match = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-            if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
-            return link;
-        }
-
-
-        function openPdfModal(subject, type) {
-            selectedSubjectName = subject;
-            selectedDocType = type;
-           
-            const typeKey = type === 'វិញ្ញាសា' ? 'exam' : 'solution';
-            const key = `${subject}_${typeKey}_${selectedYear.id}`;
-            const pdfLink = PDF_LINKS[key];
-           
-            const modal = document.getElementById('pdfModal');
-            const title = document.getElementById('pdfModalTitle');
-            const subtitle = document.getElementById('pdfModalSubtitle');
-            const header = document.getElementById('pdfModalHeaderColor');
-            const container = document.getElementById('pdfViewerContainer');
-           
-            const gradient = subject.includes('សង្គម') ? 'from-teal-600 to-emerald-500' : 'from-red-600 to-rose-500';
-            header.className = `p-4 md:p-6 text-white flex items-center justify-between bg-gradient-to-r ${gradient}`;
-           
-            title.innerText = `${type}៖ ${subject} ឆ្នាំ ${selectedYear.label}`;
-            subtitle.innerText = `បាក់ឌុប - បង្ហាញពី Google Drive`;
-           
-            if (pdfLink && pdfLink !== 'https://drive.google.com/file/d/XXXXXXXXXXXXXXXXX/view?usp=sharing') {
-                const embedUrl = getEmbedUrl(pdfLink);
-                container.innerHTML = `<iframe src="${embedUrl}" class="w-full h-[65vh] rounded-xl" frameborder="0" allow="autoplay"></iframe>`;
-            } else {
-                container.innerHTML = `
-                    <div class="text-center p-8">
-                        <i class="fa-solid fa-file-pdf text-6xl text-red-400 mb-4"></i>
-                        <p class="text-gray-600 dark:text-slate-400 text-base font-medium">មិនទាន់មានឯកសារ PDF សម្រាប់ឆ្នាំនេះទេ</p>
-                        <p class="text-sm text-gray-500 dark:text-slate-500 mt-2">សូមអភ័យទោស! យើងខ្ញុំកំពុងបន្ថែមឯកសារបន្តិចម្តងៗ</p>
-                        <p class="text-xs text-gray-400 mt-4">ប្រសិនបើអ្នកមានឯកសារ សូមទំនាក់ទំនងមកពួកយើងខ្ញុំ</p>
+        // Build Race Arena based on student list
+        function resetRaceArena() {
+            const arena = document.getElementById('race-arena');
+            
+            if (students.length < 2) {
+                arena.innerHTML = `
+                    <div id="arena-placeholder" class="text-center text-slate-500 py-20 flex flex-col items-center justify-center gap-4">
+                        <div class="w-16 h-16 rounded-full border-4 border-slate-800 border-t-cyan-500 animate-spin flex items-center justify-center">
+                            <i class="fa-solid fa-bicycle text-cyan-400 text-xl"></i>
+                        </div>
+                        <p class="text-sm">រង់ចាំការរៀបចំផ្លូវប្រណាំង...<br>សូមជ្រើសរើស ឬបន្ថែមសិស្សយ៉ាងហោចណាស់ ២ នាក់!</p>
                     </div>
                 `;
+                document.getElementById('start-race-btn').disabled = true;
+                document.getElementById('start-race-btn').classList.add('opacity-50', 'cursor-not-allowed');
+                return;
             }
-           
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+
+            document.getElementById('start-race-btn').disabled = false;
+            document.getElementById('start-race-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            arena.innerHTML = '';
+            students.forEach((student, index) => {
+                const color = bikeColors[index % bikeColors.length];
+                
+                // Track lane
+                const lane = document.createElement('div');
+                lane.className = "relative w-full h-12 bg-slate-950/40 rounded-xl border border-slate-800/80 flex items-center overflow-hidden pr-12 flex-shrink-0";
+                
+                // Moving Background Track
+                const track = document.createElement('div');
+                track.className = "running-track absolute inset-0 w-full h-full opacity-60";
+                track.id = `track-${student.id}`;
+                lane.appendChild(track);
+
+                // Start Marker Line
+                const startLine = document.createElement('div');
+                startLine.className = "absolute left-20 top-0 bottom-0 w-1 border-r border-dashed border-cyan-400/40";
+                lane.appendChild(startLine);
+
+                // Finish Banner / Gate
+                const finishBanner = document.createElement('div');
+                finishBanner.className = "absolute right-0 top-0 bottom-0 w-10 flex flex-col items-center justify-center bg-slate-900 border-l border-red-500/50 text-red-500 font-bold z-10 text-[10px]";
+                finishBanner.innerHTML = `
+                    <div class="w-full bg-slate-950 flex flex-wrap h-full content-center justify-center">
+                        <div class="w-2.5 h-2.5 bg-slate-100"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-900"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-900"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-100"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-100"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-900"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-900"></div>
+                        <div class="w-2.5 h-2.5 bg-slate-100"></div>
+                    </div>
+                `;
+                lane.appendChild(finishBanner);
+
+                // Racer Bicycle SVG Object
+                const rBox = document.createElement('div');
+                rBox.id = `racer-box-${student.id}`;
+                rBox.className = "absolute left-0 flex items-center h-full z-20 transform translate-x-0 transition-transform duration-75 select-none";
+                rBox.style.transform = `translateX(5px)`; // Start position
+
+                // SVG Drawing of modern bicycle & rider representation
+                rBox.innerHTML = `
+                    <div class="flex items-center gap-2 pr-2">
+                        <!-- Student Name Tag above or beside bike -->
+                        <span class="bg-slate-900/90 text-slate-100 border border-slate-700/60 font-semibold text-xs py-0.5 px-2.5 rounded-full whitespace-nowrap shadow-md max-w-[80px] truncate">
+                            ${student.name}
+                        </span>
+                        
+                        <!-- Bicycle Graphics (Completely straight, no bobbing/jumping) -->
+                        <div class="relative w-14 h-9 flex items-center justify-center">
+                            <!-- Bicycle Chassis & Rider Frame (Stylized SVG) -->
+                            <svg class="w-full h-full text-slate-300" viewBox="0 0 64 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Rider Body (Stylized Geometric representation of racer) -->
+                                <circle cx="34" cy="8" r="4" fill="${color}" /> <!-- Helmet -->
+                                <path d="M34 12L28 22L18 20" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/> <!-- Back & Arm -->
+                                <path d="M28 22L36 28L42 22" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/> <!-- Leg & Pedal -->
+                                <path d="M34 12L42 16L45 22" stroke="#e2e8f0" stroke-width="2.5" stroke-linecap="round" /> <!-- Arm/Handlebar connection -->
+
+                                <!-- Bicycle Metal Frame -->
+                                <path d="M20 30L34 30L45 18L32 18L20 30Z" stroke="#94a3b8" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M34 30L45 18" stroke="#64748b" stroke-width="2" />
+                                <path d="M20 30L26 15L35 15" stroke="#64748b" stroke-width="1.5" /> <!-- Seat post -->
+                                
+                                <!-- Wheels (Rotate smoothly around their own centers) -->
+                                <!-- Front Wheel (Center: 45, 30) -->
+                                <g id="front-wheel-${student.id}">
+                                    <circle cx="45" cy="30" r="8" stroke="#ffffff" stroke-width="2" fill="rgba(0,0,0,0.5)" />
+                                    <line x1="45" y1="22" x2="45" y2="38" stroke="#94a3b8" stroke-width="1" />
+                                    <line x1="37" y1="30" x2="53" y2="30" stroke="#94a3b8" stroke-width="1" />
+                                </g>
+                                <!-- Rear Wheel (Center: 20, 30) -->
+                                <g id="rear-wheel-${student.id}">
+                                    <circle cx="20" cy="30" r="8" stroke="#ffffff" stroke-width="2" fill="rgba(0,0,0,0.5)" />
+                                    <line x1="20" y1="22" x2="20" y2="38" stroke="#94a3b8" stroke-width="1" />
+                                    <line x1="12" y1="30" x2="28" y2="30" stroke="#94a3b8" stroke-width="1" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+
+                lane.appendChild(rBox);
+                arena.appendChild(lane);
+            });
         }
 
+        // Start Countdown & Race Process
+        async function startRace() {
+            if (isRacing || students.length < 2) return;
+            isRacing = true;
 
-        function closePdfModal() {
-            document.getElementById('pdfModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            document.getElementById('pdfViewerContainer').innerHTML = `
-                <div class="text-center text-gray-500">
-                    <i class="fa-solid fa-spinner fa-spin text-3xl mb-2"></i>
-                    <p>កំពុងផ្ទុក PDF...</p>
-                </div>
-            `;
+            // Get selected race duration in seconds from the input element
+            let durationSec = parseFloat(document.getElementById('race-duration').value) || 5;
+            if (durationSec < 2) durationSec = 2;
+            if (durationSec > 60) durationSec = 60;
+
+            // Lock controls
+            document.getElementById('start-race-btn').disabled = true;
+            document.getElementById('start-race-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            document.querySelectorAll('#student-list button').forEach(b => b.disabled = true);
+            document.querySelector('#add-student-form button').disabled = true;
+
+            // Lock duration controls
+            document.getElementById('race-duration').disabled = true;
+            document.getElementById('btn-dur-minus').disabled = true;
+            document.getElementById('btn-dur-plus').disabled = true;
+
+            // Play starting sequence beep
+            playStartSound();
+
+            // Start thrilling background music with tempo based on duration
+            setTimeout(() => {
+                if (isRacing) {
+                    startRaceMusic(durationSec);
+                }
+            }, 600);
+
+            // Calculate precise wheel and track animation speed based on duration
+            const speedFactor = 5 / durationSec;
+            const wheelAnimDuration = (0.3 / speedFactor) + "s";
+            const trackAnimDuration = (0.5 / speedFactor) + "s";
+
+            // Setup internal state for racers
+            const raceArenaWidth = document.getElementById('race-arena').clientWidth;
+            const finishLine = raceArenaWidth - 95; // Finish line relative position (subtract margin & bike width)
+            const trackDistance = finishLine - 10;  // Total pixels to travel
+            
+            // Frame rate assumption is 60fps, total frames needed is roughly (durationSec * 60)
+            const totalFramesExpected = durationSec * 60;
+            const averageVelocityRequired = trackDistance / totalFramesExpected;
+
+            // Add racing movement class to tracks and wheel spin to wheels with calculated speed and normal rotation classes
+            students.forEach(student => {
+                const track = document.getElementById(`track-${student.id}`);
+                track.classList.add('track-moving');
+                track.style.animationDuration = trackAnimDuration;
+
+                // Added normal centered rotation classes for both wheels
+                const fWheel = document.getElementById(`front-wheel-${student.id}`);
+                fWheel.classList.add('wheel-spin-front');
+                fWheel.style.animationDuration = wheelAnimDuration;
+
+                const rWheel = document.getElementById(`rear-wheel-${student.id}`);
+                rWheel.classList.add('wheel-spin-rear');
+                rWheel.style.animationDuration = wheelAnimDuration;
+            });
+
+            // Prepare racers state
+            const racers = students.map(student => {
+                // Assign a small random variation to ensure a dynamic, unpredictable competition
+                const performanceFactor = 0.85 + Math.random() * 0.3; // between 85% and 115% of average velocity
+                return {
+                    id: student.id,
+                    name: student.name,
+                    position: 10, // starting position in pixels
+                    speed: averageVelocityRequired * performanceFactor,
+                    accel: 0
+                };
+            });
+
+            // Main Animation Frame function
+            function updateFrame() {
+                if (!isRacing) return;
+
+                let winner = null;
+
+                racers.forEach(racer => {
+                    // Random pedaling force (acceleration/deceleration fluctuations)
+                    racer.accel = (Math.random() - 0.49) * 0.15 * averageVelocityRequired; 
+                    racer.speed += racer.accel;
+                    
+                    // Keep speed realistic to current scale
+                    const minAllowedSpeed = averageVelocityRequired * 0.3;
+                    const maxAllowedSpeed = averageVelocityRequired * 1.8;
+
+                    if (racer.speed < minAllowedSpeed) racer.speed = minAllowedSpeed;
+                    if (racer.speed > maxAllowedSpeed) racer.speed = maxAllowedSpeed;
+
+                    racer.position += racer.speed;
+
+                    // Update UI element position
+                    const racerBox = document.getElementById('racer-box-' + racer.id);
+                    if (racerBox) {
+                        racerBox.style.transform = 'translateX(' + racer.position + 'px)';
+                    }
+
+                    // Check for winner
+                    if (racer.position >= finishLine && !winner) {
+                        winner = racer;
+                    }
+                });
+
+                if (winner) {
+                    endRace(winner);
+                } else {
+                    animationFrameId = requestAnimationFrame(updateFrame);
+                }
+            }
+
+            // Start animation loop
+            animationFrameId = requestAnimationFrame(updateFrame);
         }
 
+        // Cleanup, stop animations, and declare winner
+        function endRace(winner) {
+            isRacing = false;
+            cancelAnimationFrame(animationFrameId);
+            
+            // Stop the music loops
+            stopRaceMusic();
 
-        window.onload = () => {
-            renderButtons();
-        };
-  </script>
+            // Remove moving background classes and wheel rotations
+            students.forEach(student => {
+                document.getElementById(`track-${student.id}`).classList.remove('track-moving');
+                document.getElementById(`front-wheel-${student.id}`).classList.remove('wheel-spin-front');
+                document.getElementById(`rear-wheel-${student.id}`).classList.remove('wheel-spin-rear');
+            });
+
+            // Re-enable controls
+            document.getElementById('start-race-btn').disabled = false;
+            document.getElementById('start-race-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+            document.querySelectorAll('#student-list button').forEach(b => b.disabled = false);
+            document.querySelector('#add-student-form button').disabled = false;
+
+            // Unlock duration controls
+            document.getElementById('race-duration').disabled = false;
+            document.getElementById('btn-dur-minus').disabled = false;
+            document.getElementById('btn-dur-plus').disabled = false;
+
+            // Trigger particles / confetti
+            fireConfetti();
+            
+            // Play victory fan-fare sound
+            playWinnerSound();
+
+            // Show Winner Dialog
+            setTimeout(() => {
+                showWinnerModal(winner);
+            }, 500);
+        }
+
+        // Show Modal Dialog with winner details and toggle default state
+        function showWinnerModal(winner) {
+            currentWinnerId = winner.id; // Store winner's ID
+            
+            const modal = document.getElementById('winner-modal');
+            const nameField = document.getElementById('winner-name');
+            nameField.innerText = winner.name;
+            
+            // Uncheck the toggle by default for safety
+            document.getElementById('remove-winner-checkbox').checked = false;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+            modal.classList.add('opacity-100', 'scale-100');
+        }
+
+        // Handle close with option check
+        function handleCloseWinnerModal(shouldRestart) {
+            const shouldRemove = document.getElementById('remove-winner-checkbox').checked;
+            
+            if (shouldRemove && currentWinnerId) {
+                // Silently remove winner student without triggering default delete sound
+                students = students.filter(s => s.id !== currentWinnerId);
+                saveStudents();
+                updateStudentListUI();
+            }
+
+            // Reset current winner state
+            currentWinnerId = null;
+
+            closeWinnerModal();
+
+            if (shouldRestart) {
+                // Triggers fresh race track build and countdown
+                resetRaceArena();
+            } else {
+                resetRaceArena();
+            }
+        }
+
+        // Close Modal Dialog UI only
+        function closeWinnerModal() {
+            const modal = document.getElementById('winner-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+            modal.classList.remove('opacity-100', 'scale-100');
+        }
+
+        // Confetti Fireworks celebration
+        function fireConfetti() {
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: bikeColors
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: bikeColors
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // Helper Notification Alert
+        function showBannerNotification(text) {
+            const banner = document.createElement('div');
+            banner.className = "fixed bottom-5 right-5 bg-red-600 text-slate-100 px-5 py-3 rounded-xl shadow-2xl border border-red-500 flex items-center gap-2 z-50 transform translate-y-10 opacity-0 transition-all duration-300";
+            banner.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${text}`;
+            document.body.appendChild(banner);
+
+            setTimeout(() => {
+                banner.classList.remove('translate-y-10', 'opacity-0');
+            }, 100);
+
+            setTimeout(() => {
+                banner.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => banner.remove(), 300);
+            }, 4000);
+        }
+    </script>
 </body>
-
-
 </html>
