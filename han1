@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>គណិតវិទ្យាខ្មែរ - ថ្នាក់ទី៧-១២</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#f8fafc;--card:#fff;--text:#1e293b;--text2:#64748b;--border:#e2e8f0;--g7:#ec4899;--g8:#3b82f6;--g9:#f97316;--g10:#8b5cf6;--g11:#10b981;--g12:#eab308}
+        [data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--text2:#94a3b8;--border:#334155}
+        body{font-family:'Noto Sans Khmer',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+        .glass{background:var(--card);border:1px solid var(--border);border-radius:16px}
+        #sidebar{width:280px;min-height:100vh;background:var(--card);border-right:1px solid var(--border);position:fixed;z-index:1040;transition:transform .2s}
+        .nav-link{display:flex;align-items:center;padding:10px 18px;margin:4px 12px;border-radius:10px;color:var(--text2);text-decoration:none;font-weight:500}
+        .nav-link.active{background:#6366f1;color:#fff}
+        .nav-link:hover{background:#6366f110}
+        .top-bar{background:var(--card);border-bottom:1px solid var(--border);height:65px;position:sticky;top:0;z-index:1020}
+        .search-box{position:relative;max-width:350px}
+        .suggestions{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1px solid var(--border);border-radius:8px;display:none;z-index:1100;max-height:250px;overflow-y:auto}
+        .suggestion-item{padding:8px 12px;cursor:pointer}
+        .suggestion-item:hover{background:#6366f110}
+        .badge-g7{background:var(--g7)}.badge-g8{background:var(--g8)}.badge-g9{background:var(--g9)}.badge-g10{background:var(--g10)}.badge-g11{background:var(--g11)}.badge-g12{background:var(--g12)}
+        .card-g7{border-top:4px solid var(--g7);background:var(--card)}.card-g8{border-top:4px solid var(--g8)}.card-g9{border-top:4px solid var(--g9)}.card-g10{border-top:4px solid var(--g10)}.card-g11{border-top:4px solid var(--g11)}.card-g12{border-top:4px solid var(--g12)}
+        .lesson-item{border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;background:var(--card)}
+        .nav-tabs-custom{border-bottom:2px solid var(--border)}
+        .nav-tabs-custom .nav-link{border:none;color:var(--text2);font-weight:500;border-bottom:3px solid transparent}
+        .nav-tabs-custom .nav-link.active{color:#6366f1;border-bottom-color:#6366f1;background:0}
+        .toast-msg{position:fixed;bottom:20px;right:20px;z-index:2000;background:var(--card);border-left:4px solid #10b981;padding:10px 18px;border-radius:8px;opacity:0;transform:translateX(120%);transition:.2s}
+        .toast-msg.show{opacity:1;transform:translateX(0)}
+        @media(max-width:992px){#sidebar{transform:translateX(-100%)}#sidebar.show{transform:translateX(0)}.backdrop{position:fixed;inset:0;background:#00000060;z-index:1035;display:none}.backdrop.show{display:block}}
+        .btn-sm-custom{min-height:40px}
+    </style>
+</head>
+<body>
+<div class="backdrop" id="backdrop" onclick="toggleSidebar()"></div>
+<div id="toast" class="toast-msg"><i class="fa-solid fa-circle-check text-success me-2"></i><span id="toastText"></span></div>
+
+<div class="d-flex">
+    <aside id="sidebar" class="p-3 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+            <a href="#" onclick="navigate('home')" class="text-decoration-none"><i class="fa-solid fa-calculator fa-2x text-primary"></i><span class="fw-bold text-primary ms-2">គណិតខ្មែរ</span></a>
+            <button class="btn btn-sm d-lg-none" onclick="toggleSidebar()"><i class="fa-solid fa-xmark fa-xl"></i></button>
+        </div>
+        <div class="flex-grow-1">
+            <a href="#" class="nav-link" id="nav-home" onclick="navigate('home')"><i class="fa-solid fa-house me-3"></i>ទំព័រដើម</a>
+            <div class="small text-muted px-3 mt-3 mb-1">មធ្យមសិក្សា</div>
+            <a href="#" class="nav-link" onclick="openGrade(7)"><i class="fa-solid fa-book-open me-3" style="color:var(--g7)"></i>ថ្នាក់ទី៧</a>
+            <a href="#" class="nav-link" onclick="openGrade(8)"><i class="fa-solid fa-book-open me-3" style="color:var(--g8)"></i>ថ្នាក់ទី៨</a>
+            <a href="#" class="nav-link" onclick="openGrade(9)"><i class="fa-solid fa-book-open me-3" style="color:var(--g9)"></i>ថ្នាក់ទី៩</a>
+            <div class="small text-muted px-3 mt-3 mb-1">ទុតិយភូមិ</div>
+            <a href="#" class="nav-link" onclick="openGrade(10)"><i class="fa-solid fa-award me-3" style="color:var(--g10)"></i>ថ្នាក់ទី១០</a>
+            <a href="#" class="nav-link" onclick="openGrade(11)"><i class="fa-solid fa-award me-3" style="color:var(--g11)"></i>ថ្នាក់ទី១១</a>
+            <a href="#" class="nav-link" onclick="openGrade(12)"><i class="fa-solid fa-award me-3" style="color:var(--g12)"></i>ថ្នាក់ទី១២</a>
+            <hr>
+            <a href="#" class="nav-link" onclick="navigate('bookmarks')"><i class="fa-solid fa-star me-3 text-warning"></i>ចូលចិត្ត</a>
+            <a href="#" class="nav-link" onclick="navigate('downloads')"><i class="fa-solid fa-download me-3 text-info"></i>ទាញយក</a>
+            <a href="#" class="nav-link" onclick="navigate('admin')"><i class="fa-solid fa-lock me-3 text-danger"></i>គ្រប់គ្រង</a>
+        </div>
+        <div class="text-center text-muted small mt-4 pt-3 border-top">© ២០២៦</div>
+    </aside>
+
+    <div style="margin-left:280px;width:100%" id="mainWrap">
+        <div class="top-bar d-flex align-items-center justify-content-between px-3 px-md-4">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn d-lg-none" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <button class="btn d-none d-lg-flex" onclick="toggleSidebarCollapse()"><i class="fa-solid fa-bars"></i></button>
+                <ol class="breadcrumb mb-0" id="breadcrumb"><li class="breadcrumb-item active">ទំព័រដើម</li></ol>
+            </div>
+            <div class="search-box">
+                <input type="text" class="form-control" id="searchInput" placeholder="ស្វែងរក..." oninput="searchLesson(this.value)" autocomplete="off">
+                <div class="suggestions" id="suggestBox"></div>
+            </div>
+            <button class="btn" id="themeToggle" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i></button>
+        </div>
+        <main class="p-3 p-md-4" id="appView"></main>
+    </div>
+</div>
+
+<script>
+    // ---------- DATA ----------
+    let DB = { grades: [] };
+    let bookmarks = [], downloads = [];
+    
+    function saveDB() { localStorage.setItem('mathDB', JSON.stringify(DB)); }
+    function saveUser() { localStorage.setItem('bookmarks', JSON.stringify(bookmarks)); localStorage.setItem('downloads', JSON.stringify(downloads)); }
+    
+    function initData() {
+        let raw = localStorage.getItem('mathDB');
+        if(raw) { DB = JSON.parse(raw); if(DB.grades?.length===6) return; }
+        DB.grades = [
+            { id:7, name:"ថ្នាក់ទី៧", color:"var(--g7)", badge:"badge-g7", card:"card-g7", desc:"ពិជគណិត ចំនួនគត់", lessons:[] },
+            { id:8, name:"ថ្នាក់ទី៨", color:"var(--g8)", badge:"badge-g8", card:"card-g8", desc:"សមីការ លីនេអ៊ែរ", lessons:[] },
+            { id:9, name:"ថ្នាក់ទី៩", color:"var(--g9)", badge:"badge-g9", card:"card-g9", desc:"សមីការដឺក្រេទី២", lessons:[] },
+            { id:10, name:"ថ្នាក់ទី១០", color:"var(--g10)", badge:"badge-g10", card:"card-g10", desc:"អនុគមន៍ វ៉ិចទ័រ", lessons:[] },
+            { id:11, name:"ថ្នាក់ទី១១", color:"var(--g11)", badge:"badge-g11", card:"card-g11", desc:"លីមីត ធរណីមាត្រ", lessons:[] },
+            { id:12, name:"ថ្នាក់ទី១២", color:"var(--g12)", badge:"badge-g12", card:"card-g12", desc:"ដេរីវេ អាំងតេក្រាល", lessons:[] }
+        ];
+        for(let g of DB.grades) for(let i=1;i<=12;i++) g.lessons.push({ id:i, title:`មេរៀនទី${i}`, chapters:[] });
+        saveDB();
+    }
+    
+    function ensureChapters(gradeId, lessonId) {
+        let g = DB.grades.find(x=>x.id===gradeId);
+        let l = g?.lessons.find(x=>x.id===lessonId);
+        if(!l || l.chapters.length) return;
+        let formulas = ["ax^2+bx+c=0", "\\int u dv = uv - \\int v du", "(uv)'=u'v+uv'", "\\cos(a+b)=\\cos a\\cos b-\\sin a\\sin b"];
+        for(let j=1;j<=4;j++){
+            l.chapters.push({
+                id:j, title:`ជំពូកទី${j}: រូបមន្ត ${formulas[j-1].substring(0,15)}`,
+                content:`<h5>ខ្លឹមសារ</h5><p>រូបមន្ត៖ $$ ${formulas[j-1]} $$</p><div class="alert alert-info">ឧទាហរណ៍ និងវិភាគ</div>`,
+                video:"https://www.youtube.com/embed/dQw4w9WgXcQ",
+                pdf:"https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf",
+                exercise:`<p><strong>លំហាត់៖</strong> ដោះស្រាយសមីការ</p><button class="btn btn-primary btn-sm" onclick="alert('ចម្លើយ៖ x = 2')">បង្ហាញចម្លើយ</button>`,
+                quiz:[{ q:"តើរូបមន្តអ្វី?", opts:["សមីការដឺក្រេទី២","ដេរីវេ","អាំងតេក្រាល"], ans:0 }]
+            });
+        }
+        saveDB();
+    }
+    
+    let currentGrade=null, currentLesson=null, currentChapter=null;
+    
+    function showToast(msg) { let t=document.getElementById('toast'); document.getElementById('toastText').innerText=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('show'); document.getElementById('backdrop').classList.toggle('show'); }
+    function toggleSidebarCollapse() { let s=document.getElementById('sidebar'); s.style.display = s.style.display==='none' ? '' : 'none'; }
+    function toggleTheme() { let html=document.documentElement; let cur=html.getAttribute('data-theme')||'light'; let next=cur==='light'?'dark':'light'; html.setAttribute('data-theme',next); localStorage.setItem('theme',next); document.getElementById('themeToggle').innerHTML=next==='dark'?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>'; }
+    
+    function toggleBookmark(gId,lId,cId){
+        let key=`${gId}-${lId}-${cId}`;
+        let idx=bookmarks.indexOf(key);
+        idx>-1 ? bookmarks.splice(idx,1) : bookmarks.push(key);
+        saveUser(); if(currentChapter) renderChapterView(gId,lId,cId); showToast(idx>-1?"លុបចេញ":"បានរក្សា");
+    }
+    function toggleDownload(gId,lId,cId){
+        let key=`${gId}-${lId}-${cId}`;
+        let idx=downloads.indexOf(key);
+        idx>-1 ? downloads.splice(idx,1) : downloads.push(key);
+        saveUser(); if(currentChapter) renderChapterView(gId,lId,cId); showToast(idx>-1?"លុបទាញយក":"បានទាញយក");
+    }
+    
+    function navigate(page){
+        document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+        document.getElementById('sidebar').classList.remove('show'); document.getElementById('backdrop')?.classList.remove('show');
+        if(page==='home'){ document.getElementById('nav-home')?.classList.add('active'); document.getElementById('breadcrumb').innerHTML='<li class="breadcrumb-item active">ទំព័រដើម</li>'; renderHome(); }
+        else if(page==='bookmarks'){ renderBookmarksView(); }
+        else if(page==='downloads'){ renderDownloadsView(); }
+        else if(page==='admin'){ renderAdmin(); }
+    }
+    
+    function renderHome(){
+        let html = `<div class="p-4 rounded-4 mb-4 text-white" style="background:linear-gradient(135deg,#4f46e5,#6366f1)"><h1 class="fw-bold">គណិតវិទ្យាកម្ពុជា</h1><p>ថ្នាក់ទី៧-១២ តាមកម្មវិធីស្តង់ដារ</p><button class="btn btn-warning rounded-pill" onclick="openGrade(12)">ចូលថ្នាក់ទី១២</button></div><div class="row">`;
+        for(let g of DB.grades){
+            html += `<div class="col-md-6 col-lg-4 mb-4"><div class="glass ${g.card} h-100 p-3" style="cursor:pointer" onclick="openGrade(${g.id})"><span class="badge ${g.badge} mb-2">${g.name}</span><h4 class="fw-bold">${g.name}</h4><p class="text-secondary small">${g.desc}</p><div class="border-top pt-2 mt-2 d-flex justify-content-between"><span>${g.lessons.length} មេរៀន</span><i class="fa-solid fa-arrow-right"></i></div></div></div>`;
+        }
+        html+=`</div>`;
+        document.getElementById('appView').innerHTML = html;
+    }
+    
+    function openGrade(gid){
+        currentGrade=gid; currentLesson=null;
+        let g=DB.grades.find(x=>x.id===gid);
+        document.getElementById('breadcrumb').innerHTML=`<li class="breadcrumb-item"><a href="#" onclick="navigate('home')">ទំព័រដើម</a></li><li class="breadcrumb-item active">${g.name}</li>`;
+        let lessonsHtml = g.lessons.map(l=>`<div class="col-md-6 col-lg-4 mb-3"><div class="lesson-item d-flex align-items-center justify-content-between" onclick="openLesson(${gid},${l.id})"><div><i class="fa-solid fa-book me-2" style="color:${g.color}"></i><strong>${l.title}</strong></div><i class="fa-solid fa-chevron-right"></i></div></div>`).join('');
+        document.getElementById('appView').innerHTML=`<div class="d-flex justify-content-between mb-3"><h3 class="fw-bold">មេរៀនទាំងអស់</h3><button class="btn btn-outline-secondary btn-sm" onclick="navigate('home')">← ត្រឡប់</button></div><div class="row">${lessonsHtml}</div>`;
+    }
+    
+    function openLesson(gid,lid){
+        currentGrade=gid; currentLesson=lid; ensureChapters(gid,lid);
+        let g=DB.grades.find(x=>x.id===gid); let l=g?.lessons.find(x=>x.id===lid);
+        document.getElementById('breadcrumb').innerHTML=`<li class="breadcrumb-item"><a href="#" onclick="navigate('home')">ទំព័រដើម</a></li><li class="breadcrumb-item"><a href="#" onclick="openGrade(${gid})">${g.name}</a></li><li class="breadcrumb-item active">${l.title}</li>`;
+        let chaptersHtml = l.chapters.map(c=>`<div class="col-md-6 mb-3"><div class="glass p-3 h-100"><div class="d-flex justify-content-between"><span class="badge bg-secondary">ជំពូក ${c.id}</span><i class="fa-regular fa-clock text-muted"></i></div><h5 class="mt-2">${c.title}</h5><button class="btn btn-primary btn-sm rounded-pill mt-2" onclick="openChapter(${gid},${lid},${c.id})">អានមេរៀន</button></div></div>`).join('');
+        document.getElementById('appView').innerHTML=`<div class="d-flex justify-content-between mb-3"><h3>${l.title}</h3><button class="btn btn-outline-secondary btn-sm" onclick="openGrade(${gid})">← ថយ</button></div><div class="row">${chaptersHtml}</div>`;
+    }
+    
+    function openChapter(gid,lid,cid){
+        currentGrade=gid; currentLesson=lid; currentChapter=cid;
+        renderChapterView(gid,lid,cid);
+    }
+    
+    function renderChapterView(gid,lid,cid){
+        let g=DB.grades.find(x=>x.id===gid); let l=g?.lessons.find(x=>x.id===lid); let c=l?.chapters.find(x=>x.id===cid);
+        let key=`${gid}-${lid}-${cid}`;
+        let isBook=bookmarks.includes(key), isDl=downloads.includes(key);
+        document.getElementById('breadcrumb').innerHTML=`<li class="breadcrumb-item"><a href="#" onclick="navigate('home')">ទំព័រដើម</a></li><li class="breadcrumb-item"><a href="#" onclick="openGrade(${gid})">${g.name}</a></li><li class="breadcrumb-item"><a href="#" onclick="openLesson(${gid},${lid})">${l.title}</a></li><li class="breadcrumb-item active">${c.title}</li>`;
+        let html = `<div class="d-flex flex-wrap gap-2 justify-content-between mb-3"><div><h3 class="fw-bold">${c.title}</h3></div><div><button class="btn btn-outline-warning btn-sm" onclick="toggleBookmark(${gid},${lid},${cid})"><i class="fa-${isBook?'solid':'regular'} fa-star"></i> ${isBook?'ចូលចិត្ត':'រក្សា'}</button><button class="btn btn-outline-info btn-sm ms-2" onclick="toggleDownload(${gid},${lid},${cid})"><i class="fa-${isDl?'solid':'regular'} fa-download"></i> ${isDl?'ទាញយកហើយ':'ទាញយក'}</button><button class="btn btn-outline-secondary btn-sm ms-2" onclick="openLesson(${gid},${lid})">← ថយ</button></div></div>
+        <ul class="nav nav-tabs nav-tabs-custom mb-3"><li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabContent">ខ្លឹមសារ</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabVideo">វីដេអូ</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabPdf">PDF</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabEx">លំហាត់</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabQuiz">ប្រឡង</button></li></ul>
+        <div class="tab-content"><div class="tab-pane fade show active" id="tabContent"><div class="glass p-4">${c.content}</div></div><div class="tab-pane fade" id="tabVideo"><div class="glass p-4"><div class="ratio ratio-16x9"><iframe src="${c.video}" allowfullscreen></iframe></div></div></div><div class="tab-pane fade" id="tabPdf"><div class="glass p-4"><iframe src="https://docs.google.com/gview?url=${encodeURIComponent(c.pdf)}&embedded=true" style="width:100%;height:400px"></iframe></div></div><div class="tab-pane fade" id="tabEx"><div class="glass p-4">${c.exercise}</div></div><div class="tab-pane fade" id="tabQuiz"><div class="glass p-4 text-center" id="quizPanel"><i class="fa-solid fa-brain fa-3x mb-2"></i><h5>តេស្តសមត្ថភាព</h5><button class="btn btn-primary rounded-pill" onclick="startQuiz(${gid},${lid},${cid})">ចាប់ផ្តើម</button></div></div></div>`;
+        document.getElementById('appView').innerHTML = html;
+    }
+    
+    // Quiz simple engine
+    function startQuiz(gid,lid,cid){
+        let g=DB.grades.find(x=>x.id===gid), l=g?.lessons.find(x=>x.id===lid), c=l?.chapters.find(x=>x.id===cid);
+        if(!c?.quiz?.length){ alert("គ្មានសំណួរ"); return; }
+        let q = c.quiz[0];
+        let optsHtml = q.opts.map((opt,i)=>`<div class="mb-2"><button class="btn btn-outline-secondary w-100 text-start" onclick="submitQuizAns(${i},'${q.ans}')">${opt}</button></div>`).join('');
+        document.getElementById('quizPanel').innerHTML = `<h5>${q.q}</h5>${optsHtml}`;
+    }
+    function submitQuizAns(selected, correct){
+        if(selected==correct) showToast("ចម្លើយត្រឹមត្រូវ!");
+        else showToast("មិនត្រឹមត្រូវ, សាកល្បងម្តងទៀត");
+        setTimeout(()=>{ let g=currentGrade,l=currentLesson,c=currentChapter; if(g&&l&&c) renderChapterView(g,l,c); },1200);
+    }
+    
+    // Bookmarks / Downloads views
+    function renderBookmarksView(){
+        let items = bookmarks.map(key=>{ let [gid,lid,cid]=key.split('-').map(Number); let g=DB.grades.find(x=>x.id===gid), l=g?.lessons.find(x=>x.id===lid), c=l?.chapters.find(x=>x.id===cid); if(!c) return ''; return `<div class="col-md-6 mb-2"><div class="glass p-3 d-flex justify-content-between"><div><span class="badge ${g.badge}">${g.name}</span><h6 class="mt-1">${c.title}</h6><small>${l.title}</small></div><button class="btn btn-sm btn-danger" onclick="toggleBookmark(${gid},${lid},${cid});renderBookmarksView();"><i class="fa-solid fa-trash"></i></button></div></div>`; }).join('');
+        document.getElementById('breadcrumb').innerHTML='<li class="breadcrumb-item active">មេរៀនចូលចិត្ត</li>';
+        document.getElementById('appView').innerHTML=`<h3 class="fw-bold"><i class="fa-solid fa-star text-warning"></i> ចូលចិត្ត</h3><div class="row">${items||'<div class="col-12 text-center text-muted py-5">គ្មានទេ</div>'}</div>`;
+    }
+    function renderDownloadsView(){
+        let items = downloads.map(key=>{ let [gid,lid,cid]=key.split('-').map(Number); let g=DB.grades.find(x=>x.id===gid), l=g?.lessons.find(x=>x.id===lid), c=l?.chapters.find(x=>x.id===cid); if(!c) return ''; return `<div class="col-md-6 mb-2"><div class="glass p-3 d-flex justify-content-between"><div><span class="badge bg-info">${g.name}</span><h6>${c.title}</h6><small>${l.title}</small></div><a href="${c.pdf}" target="_blank" class="btn btn-primary btn-sm"><i class="fa-solid fa-download"></i></a></div></div>`; }).join('');
+        document.getElementById('breadcrumb').innerHTML='<li class="breadcrumb-item active">ឯកសារទាញយក</li>';
+        document.getElementById('appView').innerHTML=`<h3 class="fw-bold"><i class="fa-solid fa-download text-info"></i> បញ្ជីទាញយក</h3><div class="row">${items||'<div class="col-12 text-center text-muted py-5">គ្មានឯកសារ</div>'}</div>`;
+    }
+    
+    // Admin panel (simplified)
+    function renderAdmin(){
+        let opts = DB.grades.map(g=>`<option value="${g.id}">${g.name}</option>`).join('');
+        document.getElementById('breadcrumb').innerHTML='<li class="breadcrumb-item active">ផ្ទាំងគ្រប់គ្រង</li>';
+        document.getElementById('appView').innerHTML=`<h3 class="fw-bold text-danger"><i class="fa-solid fa-gear"></i> Admin</h3><div class="row mb-3"><div class="col-4"><div class="glass p-2 text-center"><h4>${DB.grades.length}</h4><span>ថ្នាក់</span></div></div><div class="col-4"><div class="glass p-2 text-center"><h4>${DB.grades.reduce((a,g)=>a+g.lessons.length,0)}</h4><span>មេរៀន</span></div></div></div>
+        <div class="glass p-3"><h5>បន្ថែមមេរៀន</h5><form onsubmit="addLesson(event)"><div class="row"><div class="col-md-4"><select class="form-select" id="adminGrade">${opts}</select></div><div class="col-md-3"><input class="form-control" placeholder="លេខ" id="adminLid" required></div><div class="col-md-5"><input class="form-control" placeholder="ចំណងជើង" id="adminTitle" required></div></div><button class="btn btn-primary mt-2 rounded-pill">បង្កើត</button></form></div>`;
+    }
+    window.addLesson=function(e){
+        e.preventDefault();
+        let gid=Number(document.getElementById('adminGrade').value);
+        let lid=Number(document.getElementById('adminLid').value);
+        let title=document.getElementById('adminTitle').value;
+        let grade=DB.grades.find(g=>g.id===gid);
+        if(grade.lessons.some(l=>l.id===lid)){ showToast("លេខមានហើយ"); return; }
+        grade.lessons.push({ id:lid, title:`មេរៀនទី${lid}: ${title}`, chapters:[] });
+        grade.lessons.sort((a,b)=>a.id-b.id);
+        saveDB(); showToast("បង្កើតជោគជ័យ"); renderAdmin();
+    };
+    
+    // Search
+    let searchTimeout;
+    function searchLesson(val){
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(()=>{
+            let s=val.trim().toLowerCase();
+            let box=document.getElementById('suggestBox');
+            if(!s){ box.style.display='none'; return; }
+            let matches=[];
+            DB.grades.forEach(g=>{ g.lessons.forEach(l=>{ if(l.title.toLowerCase().includes(s)) matches.push({label:`${g.name} › ${l.title}`, act:()=>openLesson(g.id,l.id)}); l.chapters?.forEach(c=>{ if(c.title.toLowerCase().includes(s)) matches.push({label:`${g.name} › ${l.title} › ${c.title}`, act:()=>openChapter(g.id,l.id,c.id)}); }); }); });
+            if(matches.length===0) box.innerHTML='<div class="p-2 text-muted">រកមិនឃើញ</div>';
+            else box.innerHTML=matches.slice(0,5).map((m,i)=>`<div class="suggestion-item" onclick="window.tmpAction${i}()">${m.label}</div>`).join('');
+            matches.forEach((m,i)=>{ window[`tmpAction${i}`]=m.act; });
+            box.style.display='block';
+        },200);
+    }
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.search-box')) document.getElementById('suggestBox').style.display='none'; });
+    
+    // Startup
+    (function(){
+        initData();
+        try{ let b=localStorage.getItem('bookmarks'); if(b) bookmarks=JSON.parse(b); let d=localStorage.getItem('downloads'); if(d) downloads=JSON.parse(d); }catch(e){}
+        let theme=localStorage.getItem('theme')||'light';
+        document.documentElement.setAttribute('data-theme',theme);
+        document.getElementById('themeToggle').innerHTML=theme==='dark'?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>';
+        renderHome();
+    })();
+</script>
+</body>
+</html>
